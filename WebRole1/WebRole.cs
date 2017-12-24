@@ -18,7 +18,7 @@ namespace WebRole1
         }
         public void g()
         {
-
+            return;
 
         }
     }
