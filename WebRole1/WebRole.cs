@@ -16,10 +16,5 @@ namespace WebRole1
 
             return base.OnStart();
         }
-
-        public void makoremoran()
-        {
-
-        }
     }
 }
