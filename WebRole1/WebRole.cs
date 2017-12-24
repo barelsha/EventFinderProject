@@ -16,10 +16,5 @@ namespace WebRole1
 
             return base.OnStart();
         }
-        public void r()
-        {
-            int moran = 100;
-            return;
-        }
     }
 }
