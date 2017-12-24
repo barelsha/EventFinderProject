@@ -16,13 +16,10 @@ namespace WebRole1
 
             return base.OnStart();
         }
-
-        public void sf()
+        public void g()
         {
-
+            return;
 
         }
     }
-
-    
 }
