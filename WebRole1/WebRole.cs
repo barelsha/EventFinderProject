@@ -16,7 +16,7 @@ namespace WebRole1
 
             return base.OnStart();
         }
-        public void rr()
+        public void r()
         {
             return;
         }
