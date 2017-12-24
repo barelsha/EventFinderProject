@@ -18,6 +18,7 @@ namespace WebRole1
         }
         public void r()
         {
+            int moran = 100;
             return;
         }
     }
