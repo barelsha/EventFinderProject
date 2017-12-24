@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
+using System.Configuration;
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.Azure;
 
 namespace WorkerRole1
 {
@@ -19,15 +21,27 @@ namespace WorkerRole1
 
         public override void Run()
         {
-            Trace.TraceInformation("WorkerRole1 is running");
+            // initialize the account information
+            var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
+            // retrieve a reference to the messages queue
+            var queueClient = storageAccount.CreateCloudQueueClient();
+            var NewEventQueue = queueClient.GetQueueReference("neweventqueue");
+            // retrieve messages and write them to the development fabric log
+            while (true)
+            {
+                Thread.Sleep(10000);
 
-            try
-            {
-                this.RunAsync(this.cancellationTokenSource.Token).Wait();
-            }
-            finally
-            {
-                this.runCompleteEvent.Set();
+                if (NewEventQueue.Exists())
+                {
+                    Trace.TraceInformation(string.Format("queue size'{0}' .", NewEventQueue.ApproximateMessageCount));
+
+                    var msg = NewEventQueue.GetMessage();
+                    if (msg != null)
+                    {
+                        Trace.TraceInformation(string.Format("Message '{0}' processed.", msg.AsString));
+                        NewEventQueue.DeleteMessage(msg);
+                    }
+                }
             }
         }
 
