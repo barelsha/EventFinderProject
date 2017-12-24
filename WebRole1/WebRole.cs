@@ -18,6 +18,7 @@ namespace WebRole1
         }
         public void g()
         {
+            int x;
             return;
 
         }
