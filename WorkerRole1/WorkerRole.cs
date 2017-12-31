@@ -39,6 +39,7 @@ namespace WorkerRole1
                     if (msg != null)
                     {
                         Trace.TraceInformation(string.Format("Message '{0}' processed.", msg.AsString));
+                        Console.Write(msg);
                         NewEventQueue.DeleteMessage(msg);
                     }
                 }
