@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
+using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
+using System;
 
 namespace WorkerRole3
 {
@@ -19,16 +16,35 @@ namespace WorkerRole3
 
         public override void Run()
         {
-            Trace.TraceInformation("WorkerRole3 is running");
+            // initialize the account information
+            var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
+            // retrieve a reference to the messages queue
+            var queueClient = storageAccount.CreateCloudQueueClient();
+            var NewEventQueue = queueClient.GetQueueReference("joineventqueue");
+            // retrieve messages and write them to the development fabric log
+            while (true)
+            {
+                Thread.Sleep(10000);
+        
+                if (NewEventQueue.Exists())
+                {
+                    Trace.TraceInformation(string.Format("queue size'{0}' .", NewEventQueue.ApproximateMessageCount));
+        
+                    var msg = NewEventQueue.GetMessage();
+                    if (msg != null)
+                    {
+                        Trace.TraceInformation(string.Format("Message '{0}' processed.", msg.AsString));
+                        //JoinEvent(msg.AsString);
+                        Console.Write(msg);
+                        NewEventQueue.DeleteMessage(msg);
+                    }
+                }
+            }
+        }
 
-            try
-            {
-                this.RunAsync(this.cancellationTokenSource.Token).Wait();
-            }
-            finally
-            {
-                this.runCompleteEvent.Set();
-            }
+        private void JoinEvent(string asString)
+        {
+            throw new NotImplementedException();
         }
 
         public override bool OnStart()

@@ -34,5 +34,23 @@ namespace WebRole1
             // retrieve number of messages queue
             var numOfMessagesInQueue = queue.ApproximateMessageCount;
         }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            // initialize the account information
+            var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
+
+            // retrieve a reference to the messages queue
+            var queueEvent = storageAccount.CreateCloudQueueClient();
+            var queue = queueEvent.GetQueueReference("joineventqueue");
+
+            queue.CreateIfNotExists(null);
+
+            var msg = new CloudQueueMessage(TextBox2.Text);
+            queue.AddMessage(msg);
+
+            // retrieve number of messages queue
+            var numOfMessagesInQueue = queue.ApproximateMessageCount;
+        }
     }
 }

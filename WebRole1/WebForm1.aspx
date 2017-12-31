@@ -10,8 +10,13 @@
     <form id="form1" runat="server">
         <div>
         </div>
+        <asp:Label runat="server">new event</asp:Label>
         <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
-        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Button" />
+        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="add new event" />
+        <br />
+        <asp:Label runat="server">join event</asp:Label>
+        <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+        <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="join event" />
     </form>
 </body>
 </html>
