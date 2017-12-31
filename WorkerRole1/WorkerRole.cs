@@ -11,6 +11,8 @@ using Microsoft.WindowsAzure.ServiceRuntime;
 using System.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.Azure;
+using Microsoft.WindowsAzure.Storage.Queue;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace WorkerRole1
 {
@@ -39,11 +41,27 @@ namespace WorkerRole1
                     if (msg != null)
                     {
                         Trace.TraceInformation(string.Format("Message '{0}' processed.", msg.AsString));
-                        Console.Write(msg);
+                        AddNewEvent(msg.AsString, storageAccount);
+                        Console.Write(msg.AsString);
                         NewEventQueue.DeleteMessage(msg);
                     }
                 }
             }
+        }
+
+        private void AddNewEvent(string msg, CloudStorageAccount storageAccount)
+        {
+            // Create the table client.
+            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+
+            // Create the table if it doesn't exist.
+            CloudTable table = tableClient.GetTableReference("events");
+            table.CreateIfNotExists();
+            EventEntity eventEntity = new EventEntity(msg);
+            // Build insert operation.
+            TableOperation insertOperation = TableOperation.Insert(eventEntity);
+            // Execute the insert operation.
+            table.Execute(insertOperation);
         }
 
         public override bool OnStart()
