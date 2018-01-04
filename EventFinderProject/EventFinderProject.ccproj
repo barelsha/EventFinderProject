@@ -37,6 +37,14 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WCFServiceWebRole1\WCFServiceWebRole1.csproj">
+      <Name>WCFServiceWebRole1</Name>
+      <Project>{a7d718bd-c030-493d-b6e4-3c49bc299775}</Project>
+      <Private>True</Private>
+      <RoleType>Web</RoleType>
+      <RoleName>WCFServiceWebRole1</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
     <ProjectReference Include="..\WebRole1\WebRole1.csproj">
       <Name>WebRole1</Name>
       <Project>{525af030-8765-4508-84b7-170299442e12}</Project>
@@ -71,12 +79,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="WCFServiceWebRole1Content\" />
     <Folder Include="WebRole1Content\" />
     <Folder Include="WorkerRole1Content\" />
     <Folder Include="WorkerRole2Content\" />
     <Folder Include="WorkerRole3Content\" />
   </ItemGroup>
   <ItemGroup>
+    <DiagnosticsConfiguration Include="WCFServiceWebRole1Content\diagnostics.wadcfgx" />
     <DiagnosticsConfiguration Include="WebRole1Content\diagnostics.wadcfgx" />
     <DiagnosticsConfiguration Include="WorkerRole1Content\diagnostics.wadcfgx" />
     <DiagnosticsConfiguration Include="WorkerRole2Content\diagnostics.wadcfgx" />

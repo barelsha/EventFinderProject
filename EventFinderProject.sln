@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerRole2", "WorkerRole2\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerRole3", "WorkerRole3\WorkerRole3.csproj", "{F29B39E7-03CA-40CA-A0D2-302E7383A079}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCFServiceWebRole1", "WCFServiceWebRole1\WCFServiceWebRole1.csproj", "{A7D718BD-C030-493D-B6E4-3C49BC299775}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{F29B39E7-03CA-40CA-A0D2-302E7383A079}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F29B39E7-03CA-40CA-A0D2-302E7383A079}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F29B39E7-03CA-40CA-A0D2-302E7383A079}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7D718BD-C030-493D-B6E4-3C49BC299775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7D718BD-C030-493D-B6E4-3C49BC299775}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7D718BD-C030-493D-B6E4-3C49BC299775}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7D718BD-C030-493D-B6E4-3C49BC299775}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
