@@ -15,6 +15,7 @@ namespace WCFServiceWebRole2
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class Service1 : IService1
     {
+
         public string Event(string newEvent)
         {
             var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));            // retrieve a reference to the messages queue
