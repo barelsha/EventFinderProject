@@ -17,14 +17,14 @@ namespace WCFServiceWebRole2
         [OperationContract]
         [WebInvoke(Method = "GET",
                ResponseFormat = WebMessageFormat.Json,
-               UriTemplate = "Events")]
+               UriTemplate = "events")]
         bool GetEvents();
 
         [OperationContract]
         [WebInvoke(Method = "GET",
            ResponseFormat = WebMessageFormat.Json,
-           UriTemplate = "Events/{id}")]
-        bool GetEvent(int id);
+           UriTemplate = "events/{id}")]
+        Event GetEvent(string id);
 
         [OperationContract]
         [WebInvoke(Method = "POST",

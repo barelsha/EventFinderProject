@@ -9,6 +9,7 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 
+
 namespace WCFServiceWebRole2
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in code, svc and config file together.
@@ -18,7 +19,7 @@ namespace WCFServiceWebRole2
 
         public string Event(string newEvent)
         {
-            var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));            // retrieve a reference to the messages queue
+            var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));// retrieve a reference to the messages queue
             var queueEvent = storageAccount.CreateCloudQueueClient();
             var queue = queueEvent.GetQueueReference("neweventqueue");
             queue.CreateIfNotExists(null);
@@ -45,9 +46,22 @@ namespace WCFServiceWebRole2
         }
 
 
-        public bool GetEvent(int id)
+        public Event GetEvent(string id)
         {
-            return true;
+            //eventfinderEntities ent = new eventfinderEntities();
+            //ent.Events.Include
+            Event even = new Event()
+            {
+                ID = 1,
+                Name = "shahar",
+                StartTime = new DateTime(),
+                EndTime = new DateTime(),
+                UserID = 1,
+                Description = "shahar",
+                User = new User()
+            };
+
+            return even;
         }
 
         public bool GetEvents()
