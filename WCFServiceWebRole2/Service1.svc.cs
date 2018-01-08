@@ -24,7 +24,7 @@ namespace WCFServiceWebRole2
             int user = Int32.Parse(userID);
             double latitudePoint = Convert.ToDouble(latitude);
             double longitudePoint = Convert.ToDouble(longitude);
-            eventfinderEntities ent = new eventfinderEntities();
+            eventfinderEntities1 ent = new eventfinderEntities1();
             Event eventEntity = new Event()
             {
                 Name = eventName,
@@ -50,14 +50,14 @@ namespace WCFServiceWebRole2
         public Event GetEvent(string id)
         {
             int eventID = Int32.Parse(id);
-            eventfinderEntities ent = new eventfinderEntities();
+            eventfinderEntities1 ent = new eventfinderEntities1();
             Event eventEntity = ent.Events.First(e => e.ID == eventID);
             return eventEntity;
         }
 
         public bool GetEvents()
         {
-            eventfinderEntities ent = new eventfinderEntities();
+            eventfinderEntities1 ent = new eventfinderEntities1();
             //ent.Events
             return true;
         }
@@ -66,7 +66,7 @@ namespace WCFServiceWebRole2
         {
             int user = Int32.Parse(userID);
             int eventId = Int32.Parse(eventID);
-            eventfinderEntities ent = new eventfinderEntities();
+            eventfinderEntities1 ent = new eventfinderEntities1();
             Event eventEntity = ent.Events.First(e => e.ID == eventId);
             User userEntity = ent.Users.First(u => u.ID == user);
             eventEntity.Users.Add(userEntity);
@@ -82,14 +82,14 @@ namespace WCFServiceWebRole2
 
         public int Login(string email, string password)
         {
-            eventfinderEntities ent = new eventfinderEntities();
+            eventfinderEntities1 ent = new eventfinderEntities1();
             User userEntity = ent.Users.First(e => e.Email == email);
             return userEntity.ID;
         }
 
         public int Register(string email, string password, string firstName, string lastName, string phoneNumber)
         {
-            eventfinderEntities ent = new eventfinderEntities();
+            eventfinderEntities1 ent = new eventfinderEntities1();
             User userEntity = new User()
             {
                 Email = email,

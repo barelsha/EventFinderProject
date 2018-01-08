@@ -100,15 +100,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="api.svc" />
-    <Content Include="EventFinderModel.Context.tt">
+    <Content Include="EventFinder.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EventFinderModel.edmx</DependentUpon>
-      <LastGenOutput>EventFinderModel.Context.cs</LastGenOutput>
+      <DependentUpon>EventFinder.edmx</DependentUpon>
+      <LastGenOutput>EventFinder.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="EventFinderModel.tt">
+    <Content Include="EventFinder.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EventFinderModel.edmx</DependentUpon>
-      <LastGenOutput>EventFinderModel.cs</LastGenOutput>
+      <DependentUpon>EventFinder.edmx</DependentUpon>
+      <LastGenOutput>EventFinder.cs</LastGenOutput>
     </Content>
     <Content Include="Service1.svc" />
   </ItemGroup>
@@ -117,22 +117,22 @@
       <DependentUpon>api.svc</DependentUpon>
     </Compile>
     <Compile Include="Event.cs">
-      <DependentUpon>EventFinderModel.tt</DependentUpon>
+      <DependentUpon>EventFinder.tt</DependentUpon>
     </Compile>
-    <Compile Include="EventFinderModel.Context.cs">
+    <Compile Include="EventFinder.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EventFinderModel.Context.tt</DependentUpon>
+      <DependentUpon>EventFinder.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="EventFinderModel.cs">
+    <Compile Include="EventFinder.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EventFinderModel.tt</DependentUpon>
+      <DependentUpon>EventFinder.tt</DependentUpon>
     </Compile>
-    <Compile Include="EventFinderModel.Designer.cs">
+    <Compile Include="EventFinder.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EventFinderModel.edmx</DependentUpon>
+      <DependentUpon>EventFinder.edmx</DependentUpon>
     </Compile>
     <Compile Include="Iapi.cs" />
     <Compile Include="Service1.svc.cs">
@@ -141,7 +141,7 @@
     <Compile Include="IService1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs">
-      <DependentUpon>EventFinderModel.tt</DependentUpon>
+      <DependentUpon>EventFinder.tt</DependentUpon>
     </Compile>
     <Compile Include="WebRole.cs" />
   </ItemGroup>
@@ -149,12 +149,12 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="EventFinderModel.edmx">
+    <EntityDeploy Include="EventFinder.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>EventFinderModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>EventFinder.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="EventFinderModel.edmx.diagram">
-      <DependentUpon>EventFinderModel.edmx</DependentUpon>
+    <Content Include="EventFinder.edmx.diagram">
+      <DependentUpon>EventFinder.edmx</DependentUpon>
     </Content>
     <None Include="packages.config" />
     <Content Include="Web.config" />

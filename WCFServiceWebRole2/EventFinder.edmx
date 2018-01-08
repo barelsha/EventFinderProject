@@ -15,6 +15,8 @@
           <Property Name="EndTime" Type="datetime" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Longitude" Type="float" />
+          <Property Name="Latitude" Type="float" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -24,6 +26,8 @@
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="UsersEvents">
           <Key>
@@ -101,6 +105,8 @@
           <Property Name="EndTime" Type="DateTime" Precision="3" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Longitude" Type="Double" />
+          <Property Name="Latitude" Type="Double" />
           <NavigationProperty Name="User" Relationship="Self.FK_Events_Users" FromRole="Events" ToRole="Users" />
           <NavigationProperty Name="Users" Relationship="Self.UsersEvents" FromRole="Events" ToRole="Users" />
         </EntityType>
@@ -112,6 +118,8 @@
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Events" Relationship="Self.FK_Events_Users" FromRole="Users" ToRole="Events" />
           <NavigationProperty Name="Events1" Relationship="Self.UsersEvents" FromRole="Users" ToRole="Events" />
         </EntityType>
@@ -131,7 +139,7 @@
           <End Role="Events" Type="Self.Event" Multiplicity="*" />
           <End Role="Users" Type="Self.User" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="eventfinderEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="eventfinderEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Events" EntityType="Self.Event" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <AssociationSet Name="FK_Events_Users" Association="Self.FK_Events_Users">
@@ -148,7 +156,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="eventfinderModelStoreContainer" CdmEntityContainer="eventfinderEntities">
+        <EntityContainerMapping StorageEntityContainer="eventfinderModelStoreContainer" CdmEntityContainer="eventfinderEntities1">
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="eventfinderModel.Event">
               <MappingFragment StoreEntitySet="Events">
@@ -158,6 +166,8 @@
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -168,6 +178,8 @@
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

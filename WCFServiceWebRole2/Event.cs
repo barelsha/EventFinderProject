@@ -26,6 +26,8 @@ namespace WCFServiceWebRole2
         public Nullable<System.DateTime> EndTime { get; set; }
         public string Description { get; set; }
         public string Name { get; set; }
+        public Nullable<double> Longitude { get; set; }
+        public Nullable<double> Latitude { get; set; }
     
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

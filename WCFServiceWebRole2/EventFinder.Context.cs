@@ -13,10 +13,10 @@ namespace WCFServiceWebRole2
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class eventfinderEntities : DbContext
+    public partial class eventfinderEntities1 : DbContext
     {
-        public eventfinderEntities()
-            : base("name=eventfinderEntities")
+        public eventfinderEntities1()
+            : base("name=eventfinderEntities1")
         {
         }
     
