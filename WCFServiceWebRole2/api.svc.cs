@@ -13,7 +13,7 @@ namespace WCFServiceWebRole2
     {
         public Event GetEvent(string id)
         {
-            eventfinderEntities ent = new eventfinderEntities();
+            eventfinderEntities1 ent = new eventfinderEntities1();
             //ent.Events.Include
             Event even = new Event()
             {

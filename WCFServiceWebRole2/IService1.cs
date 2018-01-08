@@ -24,28 +24,28 @@ namespace WCFServiceWebRole2
         [WebInvoke(Method = "GET",
            ResponseFormat = WebMessageFormat.Json,
            UriTemplate = "events/{id}")]
-        Event GetEvent(string id);
+        string GetEvent(string id);
 
-        [OperationContract]
-        [WebInvoke(Method = "GET",
-          ResponseFormat = WebMessageFormat.Json,
-          UriTemplate = "events/{eventID}/{userID}")]
-        string JoinEvent(string eventID, string userID);
+        //[OperationContract]
+        //[WebInvoke(Method = "GET",
+        //  ResponseFormat = WebMessageFormat.Json,
+        //  UriTemplate = "events/{eventID}/{userID}")]
+        //string JoinEvent(string eventID, string userID);
 
-        [OperationContract]
-        [WebInvoke(Method = "POST",
-                ResponseFormat = WebMessageFormat.Json)]
-        string Event(string eventName, string startTime, string endTime, string userID, string description, string latitude , string longitude);
+        //[OperationContract]
+        //[WebInvoke(Method = "POST",
+        //        ResponseFormat = WebMessageFormat.Json)]
+        //string Event(string eventName, string startTime, string endTime, string userID, string description, string latitude , string longitude);
 
-        [OperationContract]
-        [WebInvoke(Method = "POST",
-                ResponseFormat = WebMessageFormat.Json)]
-        int Login(string email, string password);
+        //[OperationContract]
+        //[WebInvoke(Method = "POST",
+        //        ResponseFormat = WebMessageFormat.Json)]
+        //int Login(string email, string password);
 
-        [OperationContract]
-        [WebInvoke(Method = "POST",
-                ResponseFormat = WebMessageFormat.Json)]
-        int Register(string email, string password, string firstName, string lastName, string phoneNumber);
+        //[OperationContract]
+        //[WebInvoke(Method = "POST",
+        //        ResponseFormat = WebMessageFormat.Json)]
+        //string Register(string email, string password, string firstName, string lastName, string phoneNumber);
 
     }
 
