@@ -1,6 +1,7 @@
 ﻿using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
-
+using WCFServiceWebRole2.DB;
 
 namespace WCFServiceWebRole2
 {
@@ -47,17 +48,22 @@ namespace WCFServiceWebRole2
         //}
 
 
-        public Event GetEvent(string id)
+        public QuickEvent GetEvent(string id)
         {
             int eventID = Int32.Parse(id);
-            eventfinderEntities1 ent = new eventfinderEntities1();
-            Event eventEntity = ent.Events.First(e => e.ID == eventID);
-            return eventEntity;
+            eventfinderModel model = new eventfinderModel();
+            Events eventEntity = model.Events.First(e => e.ID == eventID);
+            QuickEvent quickEvent = new QuickEvent()
+            {
+                Name = eventEntity.Name,
+                Description = eventEntity.Description
+            };
+            return quickEvent;
         }
 
         public bool GetEvents()
         {
-            eventfinderEntities1 ent = new eventfinderEntities1();
+          //  eventfinderEntities1 ent = new eventfinderEntities1();
             //ent.Events
             return true;
         }

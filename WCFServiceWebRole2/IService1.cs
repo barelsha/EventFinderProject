@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using WCFServiceWebRole2.DB;
 
 namespace WCFServiceWebRole2
 {
@@ -24,7 +25,7 @@ namespace WCFServiceWebRole2
         [WebInvoke(Method = "GET",
            ResponseFormat = WebMessageFormat.Json,
            UriTemplate = "events/{id}")]
-        Event GetEvent(string id);
+        QuickEvent GetEvent(string id);
 
         //[OperationContract]
         //[WebInvoke(Method = "GET",
