@@ -27,11 +27,11 @@ namespace WCFServiceWebRole2
            UriTemplate = "events/{id}")]
         QuickEvent GetEvent(string id);
 
-        //[OperationContract]
-        //[WebInvoke(Method = "GET",
-        //  ResponseFormat = WebMessageFormat.Json,
-        //  UriTemplate = "events/{eventID}/{userID}")]
-        //string JoinEvent(string eventID, string userID);
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+          ResponseFormat = WebMessageFormat.Json,
+          UriTemplate = "events/{eventID}/{userID}")]
+        bool JoinEvent(string eventID, string userID);
 
         //[OperationContract]
         //[WebInvoke(Method = "POST",
