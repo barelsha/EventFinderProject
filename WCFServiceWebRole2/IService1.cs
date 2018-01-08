@@ -24,7 +24,7 @@ namespace WCFServiceWebRole2
         [WebInvoke(Method = "GET",
            ResponseFormat = WebMessageFormat.Json,
            UriTemplate = "events/{id}")]
-        string GetEvent(string id);
+        Event GetEvent(string id);
 
         //[OperationContract]
         //[WebInvoke(Method = "GET",
@@ -40,12 +40,13 @@ namespace WCFServiceWebRole2
         //[OperationContract]
         //[WebInvoke(Method = "POST",
         //        ResponseFormat = WebMessageFormat.Json)]
-        //int Login(string email, string password);
+        //int Login(LoginDetails loginDetails);
 
         //[OperationContract]
         //[WebInvoke(Method = "POST",
-        //        ResponseFormat = WebMessageFormat.Json)]
-        //string Register(string email, string password, string firstName, string lastName, string phoneNumber);
+        //        ResponseFormat = WebMessageFormat.Json,
+        //        BodyStyle = WebMessageBodyStyle.Bare)]
+        //int Register(User user);
 
     }
 

@@ -47,13 +47,12 @@ namespace WCFServiceWebRole2
         //}
 
 
-        public string GetEvent(string id)
+        public Event GetEvent(string id)
         {
-            return "gfgg";
-            //int eventID = Int32.Parse(id);
-            //eventfinderEntities1 ent = new eventfinderEntities1();
-            //Event eventEntity = ent.Events.First(e => e.ID == eventID);
-            //return eventEntity;
+            int eventID = Int32.Parse(id);
+            eventfinderEntities1 ent = new eventfinderEntities1();
+            Event eventEntity = ent.Events.First(e => e.ID == eventID);
+            return eventEntity;
         }
 
         public bool GetEvents()
@@ -81,29 +80,28 @@ namespace WCFServiceWebRole2
         //    return "";
         //}
 
-        //public int Login(string email, string password)
+        //public int Login(LoginDetails loginDetails)
         //{
         //    eventfinderEntities1 ent = new eventfinderEntities1();
         //    User userEntity = ent.Users.First(e => e.Email == email);
         //    return userEntity.ID;
         //}
 
-        //public string Register(string email, string password, string firstName, string lastName, string phoneNumber)
+        //public int Register(User user)
         //{
-        //    return "moran";
-        //    //eventfinderEntities1 ent = new eventfinderEntities1();
+        //    eventfinderEntities1 ent = new eventfinderEntities1();
         //    //User userEntity = new User()
         //    //{
-        //    //    Email = email,
-        //    //    Password = password,
-        //    //    FirstName = firstName,
-        //    //    LastName = lastName,
-        //    //    PhoneNumber = phoneNumber
+        //    //    Email = user.email,
+        //    //    Password = user.password,
+        //    //    FirstName = user.firstName,
+        //    //    LastName = user.lastName,
+        //    //    PhoneNumber = user.phoneNumber
         //    //};
-        //    //ent.Users.Add(userEntity);
-        //    //ent.SaveChanges();
-        //    //int userID = userEntity.ID;
-        //    //return userID;
+        //    ent.Users.Add(user);
+        //    ent.SaveChanges();
+        //    int userID = user.ID;
+        //    return userID;
         //}
     }
 }
