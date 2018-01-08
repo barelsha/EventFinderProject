@@ -1,14 +1,6 @@
-﻿using Microsoft.Azure;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Queue;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.ServiceModel.Web;
-using System.Text;
 using WCFServiceWebRole2.DB;
 
 namespace WCFServiceWebRole2
@@ -55,17 +47,37 @@ namespace WCFServiceWebRole2
             Events eventEntity = model.Events.First(e => e.ID == eventID);
             QuickEvent quickEvent = new QuickEvent()
             {
+                ID = eventEntity.ID,
                 Name = eventEntity.Name,
-                Description = eventEntity.Description
+                Description = eventEntity.Description,
+                StartTime = eventEntity.StartTime,
+                EndTime = eventEntity.EndTime,
+                Latitude = eventEntity.Latitude,
+                Longtitude = eventEntity.Longitude
             };
             return quickEvent;
         }
 
-        public bool GetEvents()
+        public List<QuickEvent> GetEvents()
         {
-          //  eventfinderEntities1 ent = new eventfinderEntities1();
-            //ent.Events
-            return true;
+            List<QuickEvent> events = new List<QuickEvent>();
+            eventfinderModel model = new eventfinderModel();
+            ICollection<Events> eventEntity = model.Events.ToList();
+            foreach (var e in eventEntity)
+            {
+                events.Add(new QuickEvent()
+                {
+                    ID = e.ID,
+                    Name = e.Name,
+                    Description = e.Description,
+                    StartTime = e.StartTime,
+                    EndTime = e.EndTime,
+                    Latitude = e.Latitude,
+                    Longtitude = e.Longitude
+                });
+            }
+            
+            return events;
         }
 
         //public string JoinEvent(string eventID, string userID)

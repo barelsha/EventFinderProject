@@ -19,7 +19,7 @@ namespace WCFServiceWebRole2
         [WebInvoke(Method = "GET",
                ResponseFormat = WebMessageFormat.Json,
                UriTemplate = "events")]
-        bool GetEvents();
+        List<QuickEvent> GetEvents();
 
         [OperationContract]
         [WebInvoke(Method = "GET",
