@@ -17,56 +17,91 @@ namespace WCFServiceWebRole2
     public class Service1 : IService1
     {
 
-        public string Event(string newEvent)
+        public string Event(string eventName, string startTime,string endTime,string userID, string description, string latitude, string longitude)
         {
+            DateTime start = Convert.ToDateTime(startTime);
+            DateTime end = Convert.ToDateTime(endTime);
+            int user = Int32.Parse(userID);
+            double latitudePoint = Convert.ToDouble(latitude);
+            double longitudePoint = Convert.ToDouble(longitude);
+            eventfinderEntities ent = new eventfinderEntities();
+            Event eventEntity = new Event()
+            {
+                Name = eventName,
+                StartTime = start,
+                EndTime = end,
+                UserID = user,
+                Description = description,
+            };
+            ent.Events.Add(eventEntity);
+            ent.SaveChanges();
+            int eventID = eventEntity.ID;
+
             var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));// retrieve a reference to the messages queue
             var queueEvent = storageAccount.CreateCloudQueueClient();
             var queue = queueEvent.GetQueueReference("neweventqueue");
             queue.CreateIfNotExists(null);
-            var msg = new CloudQueueMessage(newEvent);
+            var msg = new CloudQueueMessage(eventID.ToString());
             queue.AddMessage(msg);
-
-            //// initialize the account information
-            //var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
-
-            //// retrieve a reference to the messages queue
-            //var queueEvent = storageAccount.CreateCloudQueueClient();
-            //var queue = queueEvent.GetQueueReference("joineventqueue");
-
-            //queue.CreateIfNotExists(null);
-
-            //var msg = new CloudQueueMessage(TextBox2.Text);
-            //queue.AddMessage(msg);
-
-            //// retrieve number of messages queue
-            //var numOfMessagesInQueue = queue.ApproximateMessageCount;
-
-
-            return newEvent;
+            return "";
         }
 
 
         public Event GetEvent(string id)
         {
-            //eventfinderEntities ent = new eventfinderEntities();
-            //ent.Events.Include
-            Event even = new Event()
-            {
-                ID = 1,
-                Name = "shahar",
-                StartTime = new DateTime(),
-                EndTime = new DateTime(),
-                UserID = 1,
-                Description = "shahar",
-                User = new User()
-            };
-
-            return even;
+            int eventID = Int32.Parse(id);
+            eventfinderEntities ent = new eventfinderEntities();
+            Event eventEntity = ent.Events.First(e => e.ID == eventID);
+            return eventEntity;
         }
 
         public bool GetEvents()
         {
+            eventfinderEntities ent = new eventfinderEntities();
+            //ent.Events
             return true;
+        }
+
+        public string JoinEvent(string eventID, string userID)
+        {
+            int user = Int32.Parse(userID);
+            int eventId = Int32.Parse(eventID);
+            eventfinderEntities ent = new eventfinderEntities();
+            Event eventEntity = ent.Events.First(e => e.ID == eventId);
+            User userEntity = ent.Users.First(u => u.ID == user);
+            eventEntity.Users.Add(userEntity);
+            ent.SaveChanges();
+            var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
+            var queueEvent = storageAccount.CreateCloudQueueClient();
+            var queue = queueEvent.GetQueueReference("joineventqueue");
+            queue.CreateIfNotExists(null);
+            //var msg = new CloudQueueMessage();
+            //queue.AddMessage(msg);
+            return "";
+        }
+
+        public int Login(string email, string password)
+        {
+            eventfinderEntities ent = new eventfinderEntities();
+            User userEntity = ent.Users.First(e => e.Email == email);
+            return userEntity.ID;
+        }
+
+        public int Register(string email, string password, string firstName, string lastName, string phoneNumber)
+        {
+            eventfinderEntities ent = new eventfinderEntities();
+            User userEntity = new User()
+            {
+                Email = email,
+                Password = password,
+                FirstName = firstName,
+                LastName = lastName,
+                PhoneNumber = phoneNumber
+            };
+            ent.Users.Add(userEntity);
+            ent.SaveChanges();
+            int userID = userEntity.ID;
+            return userID;
         }
     }
 }
