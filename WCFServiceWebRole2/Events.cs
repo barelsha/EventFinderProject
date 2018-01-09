@@ -22,8 +22,8 @@ namespace WCFServiceWebRole2
     
         public int ID { get; set; }
         public int UserID { get; set; }
-        public Nullable<System.DateTime> StartTime { get; set; }
-        public Nullable<System.DateTime> EndTime { get; set; }
+        public System.DateTime StartTime { get; set; }
+        public System.DateTime EndTime { get; set; }
         public string Description { get; set; }
         public string Name { get; set; }
         public Nullable<double> Longitude { get; set; }

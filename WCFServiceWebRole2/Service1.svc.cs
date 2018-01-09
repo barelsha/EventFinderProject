@@ -43,7 +43,7 @@ namespace WCFServiceWebRole2
         }
 
 
-        public QuickEvent GetEvent(string id)
+        public ResponseObject<QuickEvent> GetEvent(string id)
         {
             int eventID = Int32.Parse(id);
             eventfinderModel model = new eventfinderModel();
@@ -58,7 +58,11 @@ namespace WCFServiceWebRole2
                 Latitude = eventEntity.Latitude,
                 Longtitude = eventEntity.Longitude
             };
-            return quickEvent;
+            dynamic response = new ResponseObject<QuickEvent>();
+            response.data = quickEvent;
+            response.success = true;
+            response.message = "";
+            return response;
         }
 
         public List<QuickEvent> GetEvents()
@@ -101,28 +105,28 @@ namespace WCFServiceWebRole2
             return true;
         }
 
-        //public int Login(LoginDetails loginDetails)
-        //{
-        //    eventfinderEntities1 ent = new eventfinderEntities1();
-        //    User userEntity = ent.Users.First(e => e.Email == email);
-        //    return userEntity.ID;
-        //}
+        public int Login(LoginDetails loginDetails)
+        {
+            eventfinderModel model = new eventfinderModel();
+            Users userEntity = model.Users.First(e => e.Email == loginDetails.Email && e.Password == loginDetails.Password);
+            return userEntity.ID;
+        }
 
-        //public int Register(User user)
-        //{
-        //    eventfinderEntities1 ent = new eventfinderEntities1();
-        //    //User userEntity = new User()
-        //    //{
-        //    //    Email = user.email,
-        //    //    Password = user.password,
-        //    //    FirstName = user.firstName,
-        //    //    LastName = user.lastName,
-        //    //    PhoneNumber = user.phoneNumber
-        //    //};
-        //    ent.Users.Add(user);
-        //    ent.SaveChanges();
-        //    int userID = user.ID;
-        //    return userID;
-        //}
+        public int Register(RegisterUser user)
+        {
+            eventfinderModel ent = new eventfinderModel();
+            Users userEntity = new Users()
+            {
+                Email = user.Email,
+                Password = user.Password,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber
+            };
+            ent.Users.Add(userEntity);
+            ent.SaveChanges();
+            int userID = userEntity.ID;
+            return userID;
+        }
     }
 }
