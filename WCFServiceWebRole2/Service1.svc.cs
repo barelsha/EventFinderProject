@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.Azure;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Queue;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WCFServiceWebRole2.DB;
@@ -80,23 +83,23 @@ namespace WCFServiceWebRole2
             return events;
         }
 
-        //public string JoinEvent(string eventID, string userID)
-        //{
-        //    int user = Int32.Parse(userID);
-        //    int eventId = Int32.Parse(eventID);
-        //    eventfinderEntities1 ent = new eventfinderEntities1();
-        //    Event eventEntity = ent.Events.First(e => e.ID == eventId);
-        //    User userEntity = ent.Users.First(u => u.ID == user);
-        //    eventEntity.Users.Add(userEntity);
-        //    ent.SaveChanges();
-        //    var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
-        //    var queueEvent = storageAccount.CreateCloudQueueClient();
-        //    var queue = queueEvent.GetQueueReference("joineventqueue");
-        //    queue.CreateIfNotExists(null);
-        //    //var msg = new CloudQueueMessage();
-        //    //queue.AddMessage(msg);
-        //    return "";
-        //}
+        public bool JoinEvent(string eventID, string userID)
+        {
+            int user = Int32.Parse(userID);
+            int eventId = Int32.Parse(eventID);
+            eventfinderModel model = new eventfinderModel();
+            Events eventEntity = model.Events.First(e => e.ID == eventId);
+            Users userEntity = model.Users.First(u => u.ID == user);
+            eventEntity.Users1.Add(userEntity);
+            model.SaveChanges();
+            var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
+            var queueEvent = storageAccount.CreateCloudQueueClient();
+            var queue = queueEvent.GetQueueReference("joineventqueue");
+            queue.CreateIfNotExists(null);
+            var msg = new CloudQueueMessage(eventEntity.ID.ToString());
+            queue.AddMessage(msg);
+            return true;
+        }
 
         //public int Login(LoginDetails loginDetails)
         //{
