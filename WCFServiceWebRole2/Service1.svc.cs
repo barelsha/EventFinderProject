@@ -10,8 +10,8 @@ namespace WCFServiceWebRole2
     public class Service1 : IService1
     {
 
-        //public string Event(string eventName, string startTime,string endTime,string userID, string description, string latitude, string longitude)
-        //{
+        public string AddEvent(QuickEvent eve)
+        {
         //    DateTime start = Convert.ToDateTime(startTime);
         //    DateTime end = Convert.ToDateTime(endTime);
         //    int user = Int32.Parse(userID);
@@ -36,8 +36,8 @@ namespace WCFServiceWebRole2
         //    queue.CreateIfNotExists(null);
         //    var msg = new CloudQueueMessage(eventID.ToString());
         //    queue.AddMessage(msg);
-        //    return "";
-        //}
+            return "shahar";
+        }
 
 
         public QuickEvent GetEvent(string id)

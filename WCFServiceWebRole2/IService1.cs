@@ -33,10 +33,12 @@ namespace WCFServiceWebRole2
         //  UriTemplate = "events/{eventID}/{userID}")]
         //string JoinEvent(string eventID, string userID);
 
-        //[OperationContract]
-        //[WebInvoke(Method = "POST",
-        //        ResponseFormat = WebMessageFormat.Json)]
-        //string Event(string eventName, string startTime, string endTime, string userID, string description, string latitude , string longitude);
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+                ResponseFormat = WebMessageFormat.Json,
+            RequestFormat = WebMessageFormat.Json,
+            UriTemplate = "events")]
+        string AddEvent(QuickEvent eve);
 
         //[OperationContract]
         //[WebInvoke(Method = "POST",
