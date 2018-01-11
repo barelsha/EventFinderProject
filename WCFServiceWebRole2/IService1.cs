@@ -19,7 +19,7 @@ namespace WCFServiceWebRole2
         [WebInvoke(Method = "GET",
                ResponseFormat = WebMessageFormat.Json,
                UriTemplate = "events")]
-        List<QuickEvent> GetEvents();
+        ResponseObject<List<QuickEvent>> GetEvents();
 
         [OperationContract]
         [WebInvoke(Method = "GET",
@@ -31,28 +31,28 @@ namespace WCFServiceWebRole2
         [WebInvoke(Method = "GET",
           ResponseFormat = WebMessageFormat.Json,
           UriTemplate = "events/{eventID}/{userID}")]
-        bool JoinEvent(string eventID, string userID);
+        ResponseObject<bool> JoinEvent(string eventID, string userID);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
                 ResponseFormat = WebMessageFormat.Json,
             RequestFormat = WebMessageFormat.Json,
             UriTemplate = "events")]
-        string AddEvent(QuickEvent eve);
+        ResponseObject<int> AddEvent(QuickEvent newEvent);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
                 ResponseFormat = WebMessageFormat.Json,
             RequestFormat = WebMessageFormat.Json,
             UriTemplate = "login")]
-        int Login(LoginDetails loginDetails);
+        ResponseObject<int> Login(LoginDetails loginDetails);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
                 ResponseFormat = WebMessageFormat.Json,
             RequestFormat = WebMessageFormat.Json,
             UriTemplate = "Register")]
-        int Register(RegisterUser user);
+        ResponseObject<int> Register(RegisterUser user);
 
     }
 
