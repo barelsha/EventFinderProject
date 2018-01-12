@@ -10,8 +10,8 @@ namespace WCFServiceWebRole2.DB
         public int ID { get; set; }
         public string Description { get; set; }
         public string Name { get; set; }
-        public DateTime? StartTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
         public double? Latitude { get; set; }
         public double? Longtitude { get; set; }
         public int UserID { get; set; }

@@ -13,7 +13,7 @@ namespace WCFServiceWebRole2
     public class Service1 : IService1
     {
 
-        public ResponseObject<int> AddEvent(QuickEvent newEvent)
+        public ResponseObject<QuickEvent> AddEvent(QuickEvent newEvent)
         {
             dynamic response = new ResponseObject<QuickEvent>();
             try
@@ -23,6 +23,7 @@ namespace WCFServiceWebRole2
                 double latitudePoint = Convert.ToDouble(newEvent.Latitude);
                 double longitudePoint = Convert.ToDouble(newEvent.Longtitude);
                 eventfinderEntitiesModel ent = new eventfinderEntitiesModel();
+                User userEntity = ent.Users.First(u => u.ID == newEvent.UserID);
                 Event eventEntity = new Event()
                 {
                     Name = newEvent.Name,
@@ -32,19 +33,20 @@ namespace WCFServiceWebRole2
                     Latitude = latitudePoint,
                     Longitude = longitudePoint,
                     Description = newEvent.Description,
+                    User = userEntity
                 };
                 ent.Events.Add(eventEntity);
                 ent.SaveChanges();
                 int eventID = eventEntity.ID;
-
+            
                 var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));// retrieve a reference to the messages queue
                 var queueEvent = storageAccount.CreateCloudQueueClient();
                 var queue = queueEvent.GetQueueReference("neweventqueue");
                 queue.CreateIfNotExists(null);
                 var msg = new CloudQueueMessage(eventID.ToString());
                 queue.AddMessage(msg);
-
-                response.data = eventID;
+            
+                response.data = newEvent;
                 response.success = true;
             }
             catch (Exception)
@@ -52,7 +54,6 @@ namespace WCFServiceWebRole2
                 response.success = false;
                 response.message = string.Format("error on AddEvent event name={0}", newEvent.Name);
             }
-            
             return response;
         }
 
@@ -71,8 +72,8 @@ namespace WCFServiceWebRole2
                     ID = eventEntity.ID,
                     Name = eventEntity.Name,
                     Description = eventEntity.Description,
-                    StartTime = eventEntity.StartTime,
-                    EndTime = eventEntity.EndTime,
+                    StartTime = eventEntity.StartTime.ToString(),
+                    EndTime = eventEntity.EndTime.ToString(),
                     Latitude = eventEntity.Latitude,
                     Longtitude = eventEntity.Longitude
                 };
@@ -103,8 +104,8 @@ namespace WCFServiceWebRole2
                         ID = e.ID,
                         Name = e.Name,
                         Description = e.Description,
-                        StartTime = e.StartTime,
-                        EndTime = e.EndTime,
+                        StartTime = e.StartTime.ToString(),
+                        EndTime = e.EndTime.ToString(),
                         Latitude = e.Latitude,
                         Longtitude = e.Longitude
                     });

@@ -35,21 +35,21 @@ namespace WCFServiceWebRole2
 
         [OperationContract]
         [WebInvoke(Method = "POST",
-                ResponseFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
             RequestFormat = WebMessageFormat.Json,
             UriTemplate = "events")]
-        ResponseObject<int> AddEvent(QuickEvent newEvent);
+        ResponseObject<QuickEvent> AddEvent(QuickEvent newEvent);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
-                ResponseFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
             RequestFormat = WebMessageFormat.Json,
             UriTemplate = "login")]
         ResponseObject<int> Login(LoginDetails loginDetails);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
-                ResponseFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
             RequestFormat = WebMessageFormat.Json,
             UriTemplate = "Register")]
         ResponseObject<int> Register(RegisterUser user);
