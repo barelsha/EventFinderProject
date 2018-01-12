@@ -12,25 +12,25 @@ namespace WCFServiceWebRole2
     using System;
     using System.Collections.Generic;
     
-    public partial class Events
+    public partial class Event
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Events()
+        public Event()
         {
-            this.Users1 = new HashSet<Users>();
+            this.Users = new HashSet<User>();
         }
     
         public int ID { get; set; }
         public int UserID { get; set; }
-        public System.DateTime StartTime { get; set; }
-        public System.DateTime EndTime { get; set; }
+        public Nullable<System.DateTime> StartTime { get; set; }
+        public Nullable<System.DateTime> EndTime { get; set; }
         public string Description { get; set; }
         public string Name { get; set; }
         public Nullable<double> Longitude { get; set; }
         public Nullable<double> Latitude { get; set; }
     
-        public virtual Users Users { get; set; }
+        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Users> Users1 { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

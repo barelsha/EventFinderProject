@@ -4,11 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="40935744fad1453582537d3bf7c7ef77" Name="Diagram1">
-        <EntityTypeShape EntityType="eventfinderModelNew.Events" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="eventfinderModelNew.Users" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <AssociationConnector Association="eventfinderModelNew.FK_Events_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="eventfinderModelNew.UsersEvents" ManuallyRouted="false" />
+      <Diagram DiagramId="e72c5b1d37534116b1f8bf352dca8045" Name="Diagram1">
+        <EntityTypeShape EntityType="eventfinderModel.Event" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="eventfinderModel.User" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="eventfinderModel.FK_Events_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="eventfinderModel.UsersEvents" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

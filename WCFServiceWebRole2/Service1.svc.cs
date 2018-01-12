@@ -22,8 +22,8 @@ namespace WCFServiceWebRole2
                 DateTime end = Convert.ToDateTime(newEvent.EndTime);
                 double latitudePoint = Convert.ToDouble(newEvent.Latitude);
                 double longitudePoint = Convert.ToDouble(newEvent.Longtitude);
-                eventfinderModel ent = new eventfinderModel();
-                Events eventEntity = new Events()
+                eventfinderEntitiesModel ent = new eventfinderEntitiesModel();
+                Event eventEntity = new Event()
                 {
                     Name = newEvent.Name,
                     StartTime = start,
@@ -63,8 +63,8 @@ namespace WCFServiceWebRole2
             try
             {
                 int eventID = Int32.Parse(id);
-                eventfinderModel model = new eventfinderModel();
-                Events eventEntity = model.Events.First(e => e.ID == eventID);
+                eventfinderEntitiesModel model = new eventfinderEntitiesModel();
+                Event eventEntity = model.Events.First(e => e.ID == eventID);
 
                 QuickEvent quickEvent = new QuickEvent()
                 {
@@ -94,8 +94,8 @@ namespace WCFServiceWebRole2
             try
             {
                 List<QuickEvent> events = new List<QuickEvent>();
-                eventfinderModel model = new eventfinderModel();
-                ICollection<Events> eventEntity = model.Events.ToList();
+                eventfinderEntitiesModel model = new eventfinderEntitiesModel();
+                ICollection<Event> eventEntity = model.Events.ToList();
                 foreach (var e in eventEntity)
                 {
                     events.Add(new QuickEvent()
@@ -128,10 +128,10 @@ namespace WCFServiceWebRole2
             {
                 int user = Int32.Parse(userID);
                 int eventId = Int32.Parse(eventID);
-                eventfinderModel model = new eventfinderModel();
-                Events eventEntity = model.Events.First(e => e.ID == eventId);
-                Users userEntity = model.Users.First(u => u.ID == user);
-                eventEntity.Users1.Add(userEntity);
+                eventfinderEntitiesModel model = new eventfinderEntitiesModel();
+                Event eventEntity = model.Events.First(e => e.ID == eventId);
+                User userEntity = model.Users.First(u => u.ID == user);
+                eventEntity.Users.Add(userEntity);
                 model.SaveChanges();
                 var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
                 var queueEvent = storageAccount.CreateCloudQueueClient();
@@ -155,8 +155,8 @@ namespace WCFServiceWebRole2
             dynamic response = new ResponseObject<int>();
             try
             {
-                eventfinderModel model = new eventfinderModel();
-                Users userEntity = model.Users.First(e => e.Email == loginDetails.Email && e.Password == loginDetails.Password);
+                eventfinderEntitiesModel model = new eventfinderEntitiesModel();
+                User userEntity = model.Users.First(e => e.Email == loginDetails.Email && e.Password == loginDetails.Password);
                 response.data = userEntity.ID;
                 response.success = true;
             }
@@ -173,8 +173,8 @@ namespace WCFServiceWebRole2
             dynamic response = new ResponseObject<int>();
             try
             {
-                eventfinderModel ent = new eventfinderModel();
-                Users userEntity = new Users()
+                eventfinderEntitiesModel ent = new eventfinderEntitiesModel();
+                User userEntity = new User()
                 {
                     Email = user.Email,
                     Password = user.Password,

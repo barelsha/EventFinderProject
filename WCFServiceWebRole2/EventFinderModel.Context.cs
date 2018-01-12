@@ -13,10 +13,10 @@ namespace WCFServiceWebRole2
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class eventfinderModel : DbContext
+    public partial class eventfinderEntitiesModel : DbContext
     {
-        public eventfinderModel()
-            : base("name=eventfinderModel")
+        public eventfinderEntitiesModel()
+            : base("name=eventfinderEntitiesModel")
         {
         }
     
@@ -25,7 +25,7 @@ namespace WCFServiceWebRole2
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Events> Events { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Event> Events { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

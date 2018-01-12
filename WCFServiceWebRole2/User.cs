@@ -12,13 +12,13 @@ namespace WCFServiceWebRole2
     using System;
     using System.Collections.Generic;
     
-    public partial class Users
+    public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Users()
+        public User()
         {
-            this.Events = new HashSet<Events>();
-            this.Events1 = new HashSet<Events>();
+            this.Events = new HashSet<Event>();
+            this.Events1 = new HashSet<Event>();
         }
     
         public int ID { get; set; }
@@ -29,8 +29,8 @@ namespace WCFServiceWebRole2
         public string PhoneNumber { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Events> Events { get; set; }
+        public virtual ICollection<Event> Events { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Events> Events1 { get; set; }
+        public virtual ICollection<Event> Events1 { get; set; }
     }
 }
