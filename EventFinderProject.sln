@@ -13,10 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerRole5", "WorkerRole5\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerRole6", "WorkerRole6\WorkerRole6.csproj", "{9AB0240F-2BB9-4224-B020-180702643134}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp1", "WindowsFormsApp1\WindowsFormsApp1.csproj", "{8E8B4B69-3A2D-4EE1-AE04-1E418964D4CE}"
-	ProjectSection(ProjectDependencies) = postProject
-		{BDAE43D5-CB99-43D1-9621-FC45D42E5C6D} = {BDAE43D5-CB99-43D1-9621-FC45D42E5C6D}
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppClient", "AppClient\AppClient.csproj", "{6CC8F86B-2E21-496B-8A38-AFE6FD97EAF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,10 +41,10 @@ Global
 		{9AB0240F-2BB9-4224-B020-180702643134}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AB0240F-2BB9-4224-B020-180702643134}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AB0240F-2BB9-4224-B020-180702643134}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E8B4B69-3A2D-4EE1-AE04-1E418964D4CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E8B4B69-3A2D-4EE1-AE04-1E418964D4CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E8B4B69-3A2D-4EE1-AE04-1E418964D4CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E8B4B69-3A2D-4EE1-AE04-1E418964D4CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CC8F86B-2E21-496B-8A38-AFE6FD97EAF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CC8F86B-2E21-496B-8A38-AFE6FD97EAF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CC8F86B-2E21-496B-8A38-AFE6FD97EAF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CC8F86B-2E21-496B-8A38-AFE6FD97EAF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

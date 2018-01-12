@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+
+</head>
+<body>
+
+    <div ng-controller="mainController as mainCtrl">
+        <label>Hello {{mainCtrl.Email}}</label>
+        <br>
+        <div ng-controller="loginController as loginCtrl">
+            <div class="login-form">
+                <form name="loginForm" ng-submit="loginCtrl.login(loginForm.$valid)" novalidate>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email"
+                               ng-model="loginCtrl.userRestore.Email"
+                               ng-required="true"
+                               class="form-control"
+                               name="emailInput"
+                               placeholder="Enter Email">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password"
+                               ng-model="loginCtrl.user.Password"
+                               ng-required="true"
+                               class="form-control"
+                               name="passwordInput"
+                               placeholder="Enter Password"
+                               ng-minlength="5"
+                               ng-maxlength="10"
+                               ng-pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,10}$/">
+                        <p ng-show="loginForm.passwordInput.$error.pattern && !loginForm.passwordInput.$pristine" class="help-block">Password must contain at least one upper case letter, one lower case letter, and one numeric digit</p>
+                        <p ng-show="loginForm.passwordInput.$error.minlength && !loginForm.passwordInput.$pristine" class="help-block">Password is too short</p>
+                        <p ng-show="loginForm.passwordInput.$error.maxlength && !loginForm.passwordInput.$pristine" class="help-block">Password is too long</p>
+                    </div>
+
+                    <input type="submit"
+                           class="btn btn-success btn-lg"
+                           value="Login"
+                           ng-disabled="loginForm.$invalid">
+                </form>
+
+                <div>
+                    {{loginCtrl.errorMessage}}
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
