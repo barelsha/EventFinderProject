@@ -55,11 +55,9 @@ namespace WorkerRole4
             // Create the table if it doesn't exist.
             CloudTable table = tableClient.GetTableReference("events");
             table.CreateIfNotExists();
-            EventEntity eventEntity = new EventEntity(msg);
-            // Build insert operation.
-            TableOperation insertOperation = TableOperation.Insert(eventEntity);
-            // Execute the insert operation.
-            table.Execute(insertOperation);
+            //EventEntity eventEntity = new EventEntity(msg);
+            //TableOperation insertOperation = TableOperation.Insert(eventEntity);
+            //table.Execute(insertOperation);
         }
 
         public override bool OnStart()

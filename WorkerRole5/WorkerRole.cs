@@ -16,18 +16,18 @@ namespace WorkerRole5
     {
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly ManualResetEvent runCompleteEvent = new ManualResetEvent(false);
-
+       
         public override void Run()
         {
-            Trace.TraceInformation("WorkerRole5 is running");
-
-            try
+            eventfinderEntities model = new eventfinderEntities();
+            ICollection<Event> eventsList = model.Events.ToList();
+            foreach (Event eventEntity in eventsList)
             {
-                this.RunAsync(this.cancellationTokenSource.Token).Wait();
-            }
-            finally
-            {
-                this.runCompleteEvent.Set();
+                DateTime now = new DateTime();
+                if(eventEntity.EndTime < now)
+                {
+                    model.Events.Remove(eventEntity);
+                }
             }
         }
 
