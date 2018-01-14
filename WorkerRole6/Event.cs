@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WorkerRole4
+namespace WorkerRole6
 {
     using System;
     using System.Collections.Generic;
