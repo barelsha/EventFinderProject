@@ -24,11 +24,11 @@ namespace WorkerRole5
             DateTime now = DateTime.Now;
             foreach (Event eventEntity in eventsList)
             {
-                if (eventEntity.EndTime < now)
-                {
-                    model.Events.Remove(eventEntity);
-                    model.SaveChanges();
-                }
+                //if (eventEntity.EndTime < now)
+                //{
+                //    model.Events.Remove(eventEntity);
+                //    model.SaveChanges();
+                //}
             }
         }
 
