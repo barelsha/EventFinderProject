@@ -41,6 +41,7 @@ app.controller('eventsController', ['$http', 'Event', 'localStorageService','Eve
     var self = this;
     self.getEvents = function () {
         EventService.GetEvents().then(function (res) {
+            
             self.Events = [];
             angular.forEach(res.data, function (event) {
                 self.Events.push(new Event(event));
@@ -98,7 +99,7 @@ app.controller('loginController', ['UserService','localStorageService', '$locati
         };
     }]);
 //-------------------------------------------------------------------------------------------------------------------
-app.controller('homeController', ['UserService', '$http', 'Garment','localStorageService','$location', function(UserService, $http, Garment, localStorageService, $location) {
+app.controller('homeController', ['UserService', '$http','localStorageService','$location', function(UserService, $http, localStorageService, $location) {
     var self = this;
     
     self.login = function() {
@@ -129,6 +130,7 @@ app.controller('registerController',['UserService', '$location', '$window','loca
         self.register = function(valid) {
             if (valid) {
                 UserService.Register(self.user).then(function (success) {
+                    alert("ggf");
                     if(success!=false){
                         $location.path('/login');
                         self.cookieKey ='Email';
@@ -174,7 +176,7 @@ app.config( ['$routeProvider', function($routeProvider) {
         })
         .when("/events", {
             templateUrl : "./Components/Events/Events.html",
-            controller : "EventsController"
+            controller : "eventsController"
         })
         .when("/register", {
             templateUrl : "./Components/Register/Register.html",

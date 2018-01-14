@@ -1,8 +1,11 @@
 ﻿using Microsoft.Azure;
+using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using WCFServiceWebRole2.DB;
 
@@ -38,14 +41,13 @@ namespace WCFServiceWebRole2
                 ent.Events.Add(eventEntity);
                 ent.SaveChanges();
                 int eventID = eventEntity.ID;
-            
                 var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));// retrieve a reference to the messages queue
                 var queueEvent = storageAccount.CreateCloudQueueClient();
                 var queue = queueEvent.GetQueueReference("neweventqueue");
                 queue.CreateIfNotExists(null);
                 var msg = new CloudQueueMessage(eventID.ToString());
                 queue.AddMessage(msg);
-            
+                SaveImageInBlob(newEvent.ID, new System.IO.MemoryStream());
                 response.data = newEvent;
                 response.success = true;
             }
@@ -56,7 +58,6 @@ namespace WCFServiceWebRole2
             }
             return response;
         }
-
 
         public ResponseObject<QuickEvent> GetEvent(string id)
         {
@@ -196,5 +197,52 @@ namespace WCFServiceWebRole2
             
             return response;
         }
+
+        public void SaveImageInBlob(int eventID, Stream fileStream)
+        {
+            dynamic response = new ResponseObject<int>();
+            try
+            {
+                EnsureContainerExists();
+                SaveImage(eventID, fileStream);
+                response.success = true;
+            }
+            catch (Exception)
+            {
+                response.success = false;
+                response.message = string.Format("error on SaveImageInBlob");
+            }
+            
+        }
+        private void EnsureContainerExists()
+        {
+            var container = GetContainer();
+            container.CreateIfNotExists();
+            var permissions = container.GetPermissions();
+            permissions.PublicAccess = BlobContainerPublicAccessType.Container;
+            container.SetPermissions(permissions);
+        }
+        private CloudBlobContainer GetContainer()
+        {
+            // Get a handle on account, create a blob service client and get container proxy
+            var account = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
+            var client = account.CreateCloudBlobClient();
+            return client.GetContainerReference("photos");
+        }
+        private void SaveImage(int eventid, Stream fileStream)
+        {
+            // Create a blob in container and upload image bytes to it
+            var blob = this.GetContainer().GetBlockBlobReference(eventid.ToString());
+            blob.Properties.ContentType = "image/jpg";
+            blob.Metadata.Add("Id", Guid.NewGuid().ToString());
+            blob.Metadata.Add("ImageName", eventid.ToString());
+            blob.UploadFromStream(fileStream);
+            blob.SetMetadata();
+        }
+        //private void DeleteImage(string blobUri)
+        //{
+        //    var blob = this.GetContainer().GetBlockBlobReference(blobUri);
+        //    bool result = blob.DeleteIfExists();
+        //}
     }
 }
