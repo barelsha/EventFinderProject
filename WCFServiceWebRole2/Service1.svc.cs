@@ -1,6 +1,7 @@
 ﻿using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
+using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -122,6 +123,8 @@ namespace WCFServiceWebRole2
             return response;
         }
 
+
+
         public ResponseObject<bool> JoinEvent(string eventID, string userID)
         {
             dynamic response = new ResponseObject<bool>();
@@ -147,6 +150,103 @@ namespace WCFServiceWebRole2
             {
                 response.success = false;
                 response.message =string.Format("error on JoinEvent eventID={0} userID={1}", eventID,userID);
+            }
+            return response;
+        }
+
+        public ResponseObject<List<QuickEvent>> GetUserEvents(string userID)
+        {
+            dynamic response = new ResponseObject<List<QuickEvent>>();
+            try
+            {
+                List<QuickEvent> events = new List<QuickEvent>();
+                int user = Int32.Parse(userID);
+                eventfinderEntitiesModel model = new eventfinderEntitiesModel();
+                User userEntity = model.Users.First(u => u.ID == user);
+                List<Event> eventEntity = userEntity.Events.ToList();
+                foreach (var e in eventEntity)
+                {
+                    events.Add(new QuickEvent()
+                    {
+                        ID = e.ID,
+                        Name = e.Name,
+                        Description = e.Description,
+                        StartTime = e.StartTime.ToString(),
+                        EndTime = e.EndTime.ToString(),
+                        Latitude = e.Latitude,
+                        Longtitude = e.Longitude
+                    });
+                }
+                response.success = true;
+                response.data = events;
+            }
+            catch (Exception)
+            {
+                response.success = false;
+                response.message = string.Format("error on GetUserEvents userID={1}", userID);
+            }
+            return response;
+        }
+
+
+        public ResponseObject<List<QuickEvent>> GetUserEvents1(string userID)
+        {
+            dynamic response = new ResponseObject<List<QuickEvent>>();
+            try
+            {
+                List<QuickEvent> events = new List<QuickEvent>();
+                int user = Int32.Parse(userID);
+                eventfinderEntitiesModel model = new eventfinderEntitiesModel();
+                User userEntity = model.Users.First(u => u.ID == user);
+                List<Event> eventEntity = userEntity.Events1.ToList();
+                foreach (var e in eventEntity)
+                {
+                    events.Add(new QuickEvent()
+                    {
+                        ID = e.ID,
+                        Name = e.Name,
+                        Description = e.Description,
+                        StartTime = e.StartTime.ToString(),
+                        EndTime = e.EndTime.ToString(),
+                        Latitude = e.Latitude,
+                        Longtitude = e.Longitude
+                    });
+                }
+                response.success = true;
+                response.data = events;
+            }
+            catch (Exception)
+            {
+                response.success = false;
+                response.message = string.Format("error on GetUserEvents userID={1}", userID);
+            }
+            return response;
+        }
+
+
+
+        public ResponseObject<List<Message>> GetMessages(string id)
+        {
+            dynamic response = new ResponseObject<List<Message>>();
+            try
+            {
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
+                // Create the table client.
+                CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+                // Create the table if it doesn't exist.
+                CloudTable table = tableClient.GetTableReference("messages");
+                table.CreateIfNotExists();
+                // Construct the query operation for all customer entities where PartitionKey="MESSAGE".
+                TableQuery<Message> query = new TableQuery<Message>().Where(
+                    TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, id));
+                var temp = table.ExecuteQuery(query);
+                response.data = table.ExecuteQuery(query).ToList();
+                response.success = true;
+            }
+            catch (Exception)
+            {
+                response.success = false;
+                response.message = string.Format("error on GetMessages event={0}", id);
             }
             return response;
         }
@@ -194,6 +294,41 @@ namespace WCFServiceWebRole2
                 response.message = string.Format("error on Register email={0}", user.Email);
             }
             
+            return response;
+        }
+
+
+        public ResponseObject<List<Message>> SendMessage(Message message)
+        {
+            dynamic response = new ResponseObject<List<Message>>();
+            // Add a new message to the Azure table
+            try
+            {
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
+                // Create the table client.
+                CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+                // Create the table if it doesn't exist.
+                CloudTable table = tableClient.GetTableReference("messages");
+                table.CreateIfNotExists();
+                Message newMessage = new Message(message.Body, message.PartitionKey);
+                // object to place into table
+                // Build insert operation.
+                TableOperation insertOperation = TableOperation.Insert(newMessage);
+                // Execute the insert operation.
+                table.Execute(insertOperation);
+                // Construct the query operation for all customer entities where PartitionKey="MESSAGE".
+                TableQuery<Message> query = new TableQuery<Message>().Where(
+                    TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, newMessage.PartitionKey));
+                var temp = table.ExecuteQuery(query);
+                response.data = table.ExecuteQuery(query).ToList();
+                response.success = true;
+            }
+            catch (Exception)
+            {
+                response.success = false;
+                response.message = string.Format("error on SendMessage message={0}", message.Body);
+            }
+
             return response;
         }
     }
