@@ -1,9 +1,11 @@
 ﻿using Microsoft.Azure;
+using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
-using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using WCFServiceWebRole2.DB;
 
@@ -39,14 +41,13 @@ namespace WCFServiceWebRole2
                 ent.Events.Add(eventEntity);
                 ent.SaveChanges();
                 int eventID = eventEntity.ID;
-            
                 var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));// retrieve a reference to the messages queue
                 var queueEvent = storageAccount.CreateCloudQueueClient();
                 var queue = queueEvent.GetQueueReference("neweventqueue");
                 queue.CreateIfNotExists(null);
                 var msg = new CloudQueueMessage(eventID.ToString());
                 queue.AddMessage(msg);
-            
+                SaveImageInBlob(newEvent.ID, new System.IO.MemoryStream());
                 response.data = newEvent;
                 response.success = true;
             }
@@ -57,7 +58,6 @@ namespace WCFServiceWebRole2
             }
             return response;
         }
-
 
         public ResponseObject<QuickEvent> GetEvent(string id)
         {
@@ -123,8 +123,6 @@ namespace WCFServiceWebRole2
             return response;
         }
 
-
-
         public ResponseObject<bool> JoinEvent(string eventID, string userID)
         {
             dynamic response = new ResponseObject<bool>();
@@ -150,103 +148,6 @@ namespace WCFServiceWebRole2
             {
                 response.success = false;
                 response.message =string.Format("error on JoinEvent eventID={0} userID={1}", eventID,userID);
-            }
-            return response;
-        }
-
-        public ResponseObject<List<QuickEvent>> GetUserEvents(string userID)
-        {
-            dynamic response = new ResponseObject<List<QuickEvent>>();
-            try
-            {
-                List<QuickEvent> events = new List<QuickEvent>();
-                int user = Int32.Parse(userID);
-                eventfinderEntitiesModel model = new eventfinderEntitiesModel();
-                User userEntity = model.Users.First(u => u.ID == user);
-                List<Event> eventEntity = userEntity.Events.ToList();
-                foreach (var e in eventEntity)
-                {
-                    events.Add(new QuickEvent()
-                    {
-                        ID = e.ID,
-                        Name = e.Name,
-                        Description = e.Description,
-                        StartTime = e.StartTime.ToString(),
-                        EndTime = e.EndTime.ToString(),
-                        Latitude = e.Latitude,
-                        Longtitude = e.Longitude
-                    });
-                }
-                response.success = true;
-                response.data = events;
-            }
-            catch (Exception)
-            {
-                response.success = false;
-                response.message = string.Format("error on GetUserEvents userID={1}", userID);
-            }
-            return response;
-        }
-
-
-        public ResponseObject<List<QuickEvent>> GetUserEvents1(string userID)
-        {
-            dynamic response = new ResponseObject<List<QuickEvent>>();
-            try
-            {
-                List<QuickEvent> events = new List<QuickEvent>();
-                int user = Int32.Parse(userID);
-                eventfinderEntitiesModel model = new eventfinderEntitiesModel();
-                User userEntity = model.Users.First(u => u.ID == user);
-                List<Event> eventEntity = userEntity.Events1.ToList();
-                foreach (var e in eventEntity)
-                {
-                    events.Add(new QuickEvent()
-                    {
-                        ID = e.ID,
-                        Name = e.Name,
-                        Description = e.Description,
-                        StartTime = e.StartTime.ToString(),
-                        EndTime = e.EndTime.ToString(),
-                        Latitude = e.Latitude,
-                        Longtitude = e.Longitude
-                    });
-                }
-                response.success = true;
-                response.data = events;
-            }
-            catch (Exception)
-            {
-                response.success = false;
-                response.message = string.Format("error on GetUserEvents userID={1}", userID);
-            }
-            return response;
-        }
-
-
-
-        public ResponseObject<List<Message>> GetMessages(string id)
-        {
-            dynamic response = new ResponseObject<List<Message>>();
-            try
-            {
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
-                // Create the table client.
-                CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-                // Create the table if it doesn't exist.
-                CloudTable table = tableClient.GetTableReference("messages");
-                table.CreateIfNotExists();
-                // Construct the query operation for all customer entities where PartitionKey="MESSAGE".
-                TableQuery<Message> query = new TableQuery<Message>().Where(
-                    TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, id));
-                var temp = table.ExecuteQuery(query);
-                response.data = table.ExecuteQuery(query).ToList();
-                response.success = true;
-            }
-            catch (Exception)
-            {
-                response.success = false;
-                response.message = string.Format("error on GetMessages event={0}", id);
             }
             return response;
         }
@@ -297,39 +198,51 @@ namespace WCFServiceWebRole2
             return response;
         }
 
-
-        public ResponseObject<List<Message>> SendMessage(Message message)
+        public void SaveImageInBlob(int eventID, Stream fileStream)
         {
-            dynamic response = new ResponseObject<List<Message>>();
-            // Add a new message to the Azure table
+            dynamic response = new ResponseObject<int>();
             try
             {
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
-                // Create the table client.
-                CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-                // Create the table if it doesn't exist.
-                CloudTable table = tableClient.GetTableReference("messages");
-                table.CreateIfNotExists();
-                Message newMessage = new Message(message.Body, message.PartitionKey);
-                // object to place into table
-                // Build insert operation.
-                TableOperation insertOperation = TableOperation.Insert(newMessage);
-                // Execute the insert operation.
-                table.Execute(insertOperation);
-                // Construct the query operation for all customer entities where PartitionKey="MESSAGE".
-                TableQuery<Message> query = new TableQuery<Message>().Where(
-                    TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, newMessage.PartitionKey));
-                var temp = table.ExecuteQuery(query);
-                response.data = table.ExecuteQuery(query).ToList();
+                EnsureContainerExists();
+                SaveImage(eventID, fileStream);
                 response.success = true;
             }
             catch (Exception)
             {
                 response.success = false;
-                response.message = string.Format("error on SendMessage message={0}", message.Body);
+                response.message = string.Format("error on SaveImageInBlob");
             }
-
-            return response;
+            
         }
+        private void EnsureContainerExists()
+        {
+            var container = GetContainer();
+            container.CreateIfNotExists();
+            var permissions = container.GetPermissions();
+            permissions.PublicAccess = BlobContainerPublicAccessType.Container;
+            container.SetPermissions(permissions);
+        }
+        private CloudBlobContainer GetContainer()
+        {
+            // Get a handle on account, create a blob service client and get container proxy
+            var account = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
+            var client = account.CreateCloudBlobClient();
+            return client.GetContainerReference("photos");
+        }
+        private void SaveImage(int eventid, Stream fileStream)
+        {
+            // Create a blob in container and upload image bytes to it
+            var blob = this.GetContainer().GetBlockBlobReference(eventid.ToString());
+            blob.Properties.ContentType = "image/jpg";
+            blob.Metadata.Add("Id", Guid.NewGuid().ToString());
+            blob.Metadata.Add("ImageName", eventid.ToString());
+            blob.UploadFromStream(fileStream);
+            blob.SetMetadata();
+        }
+        //private void DeleteImage(string blobUri)
+        //{
+        //    var blob = this.GetContainer().GetBlockBlobReference(blobUri);
+        //    bool result = blob.DeleteIfExists();
+        //}
     }
 }
