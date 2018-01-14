@@ -76,3 +76,6 @@ li {
     display: inline;
     margin-left: 40px;
 }
+.angular-google-map-container {
+    height: 400px;
+}

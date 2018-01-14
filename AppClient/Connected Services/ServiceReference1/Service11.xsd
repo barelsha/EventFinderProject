@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/WCFServiceWebRole2.DB" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/WCFServiceWebRole2.DB" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ResponseObjectOfArrayOfQuickEventQQ96S_PxA">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ResponseObjectOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/WCFServiceWebRole2.DB" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ArrayOfQuickEvent" Namespace="http://schemas.datacontract.org/2004/07/WCFServiceWebRole2.DB" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="data" nillable="true" type="tns:ArrayOfQuickEvent" />
+      <xs:element minOccurs="0" name="message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="success" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ResponseObjectOfArrayOfQuickEventQQ96S_PxA" nillable="true" type="tns:ResponseObjectOfArrayOfQuickEventQQ96S_PxA" />
+  <xs:complexType name="ArrayOfQuickEvent">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="QuickEvent" nillable="true" type="tns:QuickEvent" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfQuickEvent" nillable="true" type="tns:ArrayOfQuickEvent" />
+  <xs:complexType name="QuickEvent">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EndTime" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID" type="xs:int" />
+      <xs:element minOccurs="0" name="Latitude" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="Longtitude" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StartTime" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserID" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="QuickEvent" nillable="true" type="tns:QuickEvent" />
+  <xs:complexType name="ResponseObjectOfQuickEventQQ96S_PxA">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ResponseObjectOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/WCFServiceWebRole2.DB" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="QuickEvent" Namespace="http://schemas.datacontract.org/2004/07/WCFServiceWebRole2.DB" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="data" nillable="true" type="tns:QuickEvent" />
+      <xs:element minOccurs="0" name="message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="success" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ResponseObjectOfQuickEventQQ96S_PxA" nillable="true" type="tns:ResponseObjectOfQuickEventQQ96S_PxA" />
+  <xs:complexType name="ResponseObjectOfboolean">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ResponseObjectOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/WCFServiceWebRole2.DB" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="boolean" Namespace="http://www.w3.org/2001/XMLSchema" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="data" type="xs:boolean" />
+      <xs:element minOccurs="0" name="message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="success" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ResponseObjectOfboolean" nillable="true" type="tns:ResponseObjectOfboolean" />
+  <xs:complexType name="LoginDetails">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LoginDetails" nillable="true" type="tns:LoginDetails" />
+  <xs:complexType name="ResponseObjectOfint">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ResponseObjectOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/WCFServiceWebRole2.DB" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="int" Namespace="http://www.w3.org/2001/XMLSchema" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="data" type="xs:int" />
+      <xs:element minOccurs="0" name="message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="success" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ResponseObjectOfint" nillable="true" type="tns:ResponseObjectOfint" />
+  <xs:complexType name="RegisterUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID" type="xs:int" />
+      <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PhoneNumber" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RegisterUser" nillable="true" type="tns:RegisterUser" />
+</xs:schema>

@@ -67,6 +67,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Scripts\AngularScripts\angular-google-maps-street-view.js" />
+    <Content Include="Scripts\AngularScripts\angular-google-maps-street-view.min.js" />
+    <Content Include="Scripts\AngularScripts\angular-google-maps.js" />
+    <Content Include="Scripts\AngularScripts\angular-google-maps.min.js" />
+    <Content Include="Scripts\AngularScripts\angular-local-storage.min.js" />
+    <Content Include="Scripts\AngularScripts\lodash.js" />
+    <Content Include="Scripts\AngularScripts\lodash.min.js" />
     <Content Include="Services.js" />
     <Content Include="Scripts\AngularScripts\angular.min.js.map" />
     <Content Include="Scripts\AngularScripts\angular-route.min.js.map" />
