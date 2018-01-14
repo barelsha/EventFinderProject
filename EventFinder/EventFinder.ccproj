@@ -71,6 +71,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Profiles" />
     <Folder Include="WCFServiceWebRole2Content\" />
     <Folder Include="WorkerRole4Content\" />
     <Folder Include="WorkerRole5Content\" />
@@ -81,6 +82,9 @@
     <DiagnosticsConfiguration Include="WorkerRole4Content\diagnostics.wadcfgx" />
     <DiagnosticsConfiguration Include="WorkerRole5Content\diagnostics.wadcfgx" />
     <DiagnosticsConfiguration Include="WorkerRole6Content\diagnostics.wadcfgx" />
+  </ItemGroup>
+  <ItemGroup>
+    <PublishProfile Include="Profiles\eventfinderProduction.azurePubxml" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>

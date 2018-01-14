@@ -3,29 +3,33 @@
   <Role name="WCFServiceWebRole2">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=eventfinder;AccountKey=$(_eventfinder.key_)" />
       <Setting name="DataConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="APPINSIGHTS_INSTRUMENTATIONKEY" value="4f8094d9-ef7a-4b89-ac50-9a7e1f7d1a34" />
     </ConfigurationSettings>
   </Role>
   <Role name="WorkerRole4">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=eventfinder;AccountKey=$(_eventfinder.key_)" />
       <Setting name="DataConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="APPINSIGHTS_INSTRUMENTATIONKEY" value="4f8094d9-ef7a-4b89-ac50-9a7e1f7d1a34" />
     </ConfigurationSettings>
   </Role>
   <Role name="WorkerRole5">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=eventfinder;AccountKey=$(_eventfinder.key_)" />
       <Setting name="DataConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="APPINSIGHTS_INSTRUMENTATIONKEY" value="4f8094d9-ef7a-4b89-ac50-9a7e1f7d1a34" />
     </ConfigurationSettings>
   </Role>
   <Role name="WorkerRole6">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=eventfinder;AccountKey=$(_eventfinder.key_)" />
       <Setting name="DataConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="APPINSIGHTS_INSTRUMENTATIONKEY" value="4f8094d9-ef7a-4b89-ac50-9a7e1f7d1a34" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>
