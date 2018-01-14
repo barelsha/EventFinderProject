@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 using WCFServiceWebRole2.DB;
+using System.Web.Http.Cors;
 
 namespace WCFServiceWebRole2
 {

@@ -54,7 +54,7 @@ app.factory('UserService', ['$http', function ($http) {
 app.service("EventService", function ($http) {
 
     this.GetEvents = function () {
-        return $http.get("http://eventfinder.cloudapp.net/Service1.svc/Events");
+        return $http.get('http://eventfinder.cloudapp.net/Service1.svc/Events');
     };
     this.GetEvent = function (eventID) {
         return $http.get("hhttp://eventfinder.cloudapp.net/Service1.svc/Events/" + eventID);
