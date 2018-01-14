@@ -21,12 +21,13 @@ namespace WorkerRole5
         {
             eventfinderEntities model = new eventfinderEntities();
             ICollection<Event> eventsList = model.Events.ToList();
+            DateTime now = DateTime.Now;
             foreach (Event eventEntity in eventsList)
             {
-                DateTime now = new DateTime();
-                if(eventEntity.EndTime < now)
+                if (eventEntity.EndTime < now)
                 {
                     model.Events.Remove(eventEntity);
+                    model.SaveChanges();
                 }
             }
         }
