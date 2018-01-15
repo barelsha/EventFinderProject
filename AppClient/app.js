@@ -41,11 +41,16 @@ app.controller('eventsController', ['$http', 'Event', 'localStorageService','Eve
     var self = this;
     self.getEvents = function () {
         EventService.GetEvents().then(function (res) {
-            debugger;
-            self.Events = [];
-            angular.forEach(res.data, function (event) {
-                self.Events.push(new Event(event));
-            });
+            response = res.data;
+            if (response.success) {
+                self.Events = [];
+                angular.forEach(response.data, function (event) {
+                    self.Events.push(new Event(event));
+                });
+            }
+            else {
+                alert(response.message);
+            }
         }).catch(function (err) {
             alert(err);
         });

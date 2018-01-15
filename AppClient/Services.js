@@ -19,7 +19,8 @@ app.factory('UserService', ['$http', function ($http) {
         var requestUrl = "http://eventfinder.cloudapp.net/Service1.svc/Login";
         return $http.post(requestUrl, user)
             .then(function (response) {
-                var userID = response.data;
+                res = response.data;
+                var userID = res.data;
                 $http.defaults.headers.common = {
                     'userID': userID,
                     'user': user.Email
@@ -36,12 +37,18 @@ app.factory('UserService', ['$http', function ($http) {
         var requestUrl = "http://eventfinder.cloudapp.net/Service1.svc/Register";
         return $http.post(requestUrl, user)
             .then(function (response) {
-                var userID = response.data;
-                alert(userID);
-                $http.defaults.headers.common = {
-                    'userID': userID,
-                    'user': user.Email
-                };
+                var res = response.data;
+                if (res.success) {
+                    var userID = res.data;
+                    alert(userID);
+                    $http.defaults.headers.common = {
+                        'userID': userID,
+                        'user': user.Email
+                    };
+                }
+                else {
+                    alert(res.message);
+                }
                 return Promise.resolve(response);
             })
             .catch(function (e) {
