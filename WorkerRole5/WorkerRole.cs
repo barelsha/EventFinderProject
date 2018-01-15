@@ -22,14 +22,14 @@ namespace WorkerRole5
             eventfinderEntities model = new eventfinderEntities();
             ICollection<Event> eventsList = model.Events.ToList();
             DateTime now = DateTime.Now;
-            foreach (Event eventEntity in eventsList)
-            {
-                //if (eventEntity.EndTime < now)
-                //{
-                //    model.Events.Remove(eventEntity);
-                //    model.SaveChanges();
-                //}
-            }
+            //foreach (Event eventEntity in eventsList)
+            //{
+            //    if (eventEntity.EndTime < now)
+            //    {
+            //        model.Events.Remove(eventEntity);
+            //        model.SaveChanges();
+            //    }
+            //}
         }
 
         public override bool OnStart()

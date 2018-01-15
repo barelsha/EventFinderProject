@@ -37,6 +37,7 @@ app.factory('UserService', ['$http', function ($http) {
         var requestUrl = "http://eventfinder.cloudapp.net/Service1.svc/Register";
         return $http.post(requestUrl, user)
             .then(function (response) {
+                debugger;
                 var res = response.data;
                 if (res.success) {
                     var userID = res.data;
@@ -47,11 +48,13 @@ app.factory('UserService', ['$http', function ($http) {
                     };
                 }
                 else {
+                    debugger;
                     alert(res.message);
                 }
                 return Promise.resolve(response);
             })
             .catch(function (e) {
+                debugger;
                 return Promise.reject(e);
             });
     };

@@ -20,30 +20,30 @@ namespace WorkerRole6
 
         public override void Run()
         {
-            // initialize the account information
-            var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
-            // retrieve a reference to the messages queue
-            var queueClient = storageAccount.CreateCloudQueueClient();
-            var NewEventQueue = queueClient.GetQueueReference("joineventqueue");
-            // retrieve messages and write them to the development fabric log
-            while (true)
-            {
-                Thread.Sleep(10000);
+            //// initialize the account information
+            //var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
+            //// retrieve a reference to the messages queue
+            //var queueClient = storageAccount.CreateCloudQueueClient();
+            //var NewEventQueue = queueClient.GetQueueReference("joineventqueue");
+            //// retrieve messages and write them to the development fabric log
+            //while (true)
+            //{
+            //    Thread.Sleep(10000);
 
-                if (NewEventQueue.Exists())
-                {
-                    Trace.TraceInformation(string.Format("queue size'{0}' .", NewEventQueue.ApproximateMessageCount));
+            //    if (NewEventQueue.Exists())
+            //    {
+            //        Trace.TraceInformation(string.Format("queue size'{0}' .", NewEventQueue.ApproximateMessageCount));
 
-                    var msg = NewEventQueue.GetMessage();
-                    if (msg != null)
-                    {
-                        Trace.TraceInformation(string.Format("Message '{0}' processed.", msg.AsString));
-                        //JoinEvent(msg.AsString);
-                        Console.Write(msg);
-                        NewEventQueue.DeleteMessage(msg);
-                    }
-                }
-            }
+            //        var msg = NewEventQueue.GetMessage();
+            //        if (msg != null)
+            //        {
+            //            Trace.TraceInformation(string.Format("Message '{0}' processed.", msg.AsString));
+            //            //JoinEvent(msg.AsString);
+            //            Console.Write(msg);
+            //            NewEventQueue.DeleteMessage(msg);
+            //        }
+            //    }
+            //}
         }
 
         private void JoinEvent(string asString)

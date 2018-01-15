@@ -11,10 +11,27 @@
         <label>{{mainCtrl.lastDate}} </label>
         
         <div ng-controller="eventsController as eventsCtrl" ng-init="eventsCtrl.getEvents()">
-            <div ng-repeat="event in eventsCtrl.Events">
-                <label>{{event.ID}}</label>
-                <br />
+            <div>
+                <a href="" ng-click="eventsCtrl.changeSortBy('Name')">Name</a>
+                <a href="" ng-click="eventsCtrl.changeSortBy('StartTime')">Start Time</a>
+                <a href="" ng-click="eventsCtrl.changeSortBy('EndTime')">End Time</a>
+                <br>
+                <div ng-repeat="event in eventsCtrl.Events|orderBy:eventsCtrl.sortBy">
+                    <label>{{event.Name}}</label>
+                    <label>{{event.StartTime}}</label>
+                    <label>{{event.EndTime}}</label>
+                    <button type="button" ng-click="eventsCtrl.JoinEvent(event)">Join event</button>
+                    <br>
+                </div>
             </div>
+            
+
+
+
+
+
+
+
         </div>
     </div>
 </body>
