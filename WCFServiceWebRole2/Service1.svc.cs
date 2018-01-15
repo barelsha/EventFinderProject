@@ -49,7 +49,7 @@ namespace WCFServiceWebRole2
                 queue.CreateIfNotExists(null);
                 var msg = new CloudQueueMessage(eventID.ToString());
                 queue.AddMessage(msg);
-                SaveImageInBlob(newEvent.ID, new System.IO.MemoryStream());
+                //SaveImageInBlob(newEvent.ID, new System.IO.MemoryStream());
                 response.data = newEvent;
                 response.success = true;
             }
@@ -141,7 +141,8 @@ namespace WCFServiceWebRole2
                 var queueEvent = storageAccount.CreateCloudQueueClient();
                 var queue = queueEvent.GetQueueReference("joineventqueue");
                 queue.CreateIfNotExists(null);
-                var msg = new CloudQueueMessage(eventEntity.ID.ToString());
+                string message = eventEntity.ID + ',' + userID;
+                var msg = new CloudQueueMessage(message);
                 queue.AddMessage(msg);
                 response.success = true;
                 response.data = true;
@@ -285,6 +286,7 @@ namespace WCFServiceWebRole2
                 };
                 ent.Users.Add(userEntity);
                 ent.SaveChanges();
+                SaveUserPhoneID(user.PhoneID, userEntity.ID.ToString());
                 response.data = userEntity.ID;
                 response.success = true;
             }
@@ -295,6 +297,22 @@ namespace WCFServiceWebRole2
             }
             
             return response;
+        }
+
+        private void SaveUserPhoneID(string phoneID,string userID)
+        {
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
+            // Create the table users.
+            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+            // Create the CloudTable object that represents the "users" table.
+            CloudTable table = tableClient.GetTableReference("users");
+            table.CreateIfNotExists();
+            // Create a new customer entity.
+            UserEntity userEntity = new UserEntity(phoneID, userID);
+            // Create the TableOperation object that inserts the customer entity.
+            TableOperation insertOperation = TableOperation.Insert(userEntity);
+            // Execute the insert operation.
+            table.Execute(insertOperation);
         }
 
         public ResponseObject<List<Message>> SendMessage(Message message)

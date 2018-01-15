@@ -4,7 +4,7 @@
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="DataConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="DataConnectionString" value="DefaultEndpointsProtocol=https;AccountName=eventfinder;AccountKey=K8Cnf6j1FGZR0WOEBwShFOvINvnwi+cQHpQv1EGJ6cMBN/Z5rcV42rfUq2XvXKHdv2usEdMpVcSpF4wi0ERauw==" />
       <Setting name="APPINSIGHTS_INSTRUMENTATIONKEY" value="4f8094d9-ef7a-4b89-ac50-9a7e1f7d1a34" />
     </ConfigurationSettings>
   </Role>
@@ -12,7 +12,7 @@
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="DataConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="DataConnectionString" value="DefaultEndpointsProtocol=https;AccountName=eventfinder;AccountKey=K8Cnf6j1FGZR0WOEBwShFOvINvnwi+cQHpQv1EGJ6cMBN/Z5rcV42rfUq2XvXKHdv2usEdMpVcSpF4wi0ERauw==" />
       <Setting name="APPINSIGHTS_INSTRUMENTATIONKEY" value="4f8094d9-ef7a-4b89-ac50-9a7e1f7d1a34" />
     </ConfigurationSettings>
   </Role>
@@ -20,7 +20,7 @@
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="DataConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="DataConnectionString" value="DefaultEndpointsProtocol=https;AccountName=eventfinder;AccountKey=K8Cnf6j1FGZR0WOEBwShFOvINvnwi+cQHpQv1EGJ6cMBN/Z5rcV42rfUq2XvXKHdv2usEdMpVcSpF4wi0ERauw==" />
       <Setting name="APPINSIGHTS_INSTRUMENTATIONKEY" value="4f8094d9-ef7a-4b89-ac50-9a7e1f7d1a34" />
     </ConfigurationSettings>
   </Role>
@@ -28,7 +28,7 @@
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="DataConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="DataConnectionString" value="DefaultEndpointsProtocol=https;AccountName=eventfinder;AccountKey=K8Cnf6j1FGZR0WOEBwShFOvINvnwi+cQHpQv1EGJ6cMBN/Z5rcV42rfUq2XvXKHdv2usEdMpVcSpF4wi0ERauw==" />
       <Setting name="APPINSIGHTS_INSTRUMENTATIONKEY" value="4f8094d9-ef7a-4b89-ac50-9a7e1f7d1a34" />
     </ConfigurationSettings>
   </Role>

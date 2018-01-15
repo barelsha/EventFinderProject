@@ -6,10 +6,12 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure;
+using Microsoft.Azure.NotificationHubs;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace WorkerRole6
 {
@@ -17,38 +19,54 @@ namespace WorkerRole6
     {
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly ManualResetEvent runCompleteEvent = new ManualResetEvent(false);
-
+        private string connectionStringNotification = "Endpoint=sb://notificationhubfnamespace.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=r3YQI3oM7rqlnptfnLO/kfuCpCv7v30GTjpzYr0AdAk=";
+        private string hubName = "notificationhubfirebase";
         public override void Run()
         {
-            //// initialize the account information
-            //var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
-            //// retrieve a reference to the messages queue
-            //var queueClient = storageAccount.CreateCloudQueueClient();
-            //var NewEventQueue = queueClient.GetQueueReference("joineventqueue");
-            //// retrieve messages and write them to the development fabric log
-            //while (true)
-            //{
-            //    Thread.Sleep(10000);
+            // initialize the account information
+            var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
+            // retrieve a reference to the messages queue
+            var queueClient = storageAccount.CreateCloudQueueClient();
+            var JoinEventQueue = queueClient.GetQueueReference("joineventqueue");
+            // retrieve messages and write them to the development fabric log
+            while (true)
+            {
+                Thread.Sleep(10000);
 
-            //    if (NewEventQueue.Exists())
-            //    {
-            //        Trace.TraceInformation(string.Format("queue size'{0}' .", NewEventQueue.ApproximateMessageCount));
+                if (JoinEventQueue.Exists())
+                {
+                    Trace.TraceInformation(string.Format("queue size'{0}' .", JoinEventQueue.ApproximateMessageCount));
 
-            //        var msg = NewEventQueue.GetMessage();
-            //        if (msg != null)
-            //        {
-            //            Trace.TraceInformation(string.Format("Message '{0}' processed.", msg.AsString));
-            //            //JoinEvent(msg.AsString);
-            //            Console.Write(msg);
-            //            NewEventQueue.DeleteMessage(msg);
-            //        }
-            //    }
-            //}
+                    var msg = JoinEventQueue.GetMessage();
+                    if (msg != null)
+                    {
+                        Trace.TraceInformation(string.Format("Message '{0}' processed.", msg.AsString));
+                        //NotifyManager(msg.ToString(), storageAccount);
+                        Console.Write(msg);
+                        JoinEventQueue.DeleteMessage(msg);
+                    }
+                }
+            }
         }
 
-        private void JoinEvent(string asString)
+        private void NotifyManager(string msg, CloudStorageAccount storageAccount)
         {
-            throw new NotImplementedException();
+            string[] message = msg.Split(',');
+            string eventID = message[0];
+            string userID = message[1];
+            eventfinderEntities model = new eventfinderEntities();
+            Event eventEntity = model.Events.First(e => e.ID == Int32.Parse(eventID));
+            string managerID = eventEntity.User.ID.ToString();
+            NotificationHubClient hub = NotificationHubClient.CreateClientFromConnectionString(connectionStringNotification, hubName);
+            WnsHeaderCollection wnsHeaderCollection = new WnsHeaderCollection();
+            wnsHeaderCollection.Add("X-WNS-Type", @"wns/raw");
+            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+            CloudTable table = tableClient.GetTableReference("users");
+            table.CreateIfNotExists();
+            TableQuery<UserEntity> query = new TableQuery<UserEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal,"Users" )).Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, managerID));
+            UserEntity manager = table.ExecuteQuery(query).First();
+            var notif = "{ \"data\" : {\"message\":\"" + "EventId " + eventID + " UserID "+ userID+"\"}}";
+            hub.SendGcmNativeNotificationAsync(notif, manager.PhoneID);
         }
 
         public override bool OnStart()

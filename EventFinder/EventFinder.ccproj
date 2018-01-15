@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <PublishProfile Include="Profiles\eventfinderProduction.azurePubxml" />
+    <PublishProfile Include="Profiles\eventfinderProduction1.azurePubxml" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>

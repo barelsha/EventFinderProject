@@ -130,6 +130,7 @@
     <Compile Include="DB\QuickEvent.cs" />
     <Compile Include="DB\RegisterUser.cs" />
     <Compile Include="DB\ResponseObject.cs" />
+    <Compile Include="DB\UserEntity.cs" />
     <Compile Include="Event.cs">
       <DependentUpon>EventFinderModel.tt</DependentUpon>
     </Compile>

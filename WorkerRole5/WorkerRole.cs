@@ -19,17 +19,28 @@ namespace WorkerRole5
        
         public override void Run()
         {
-            eventfinderEntities model = new eventfinderEntities();
-            ICollection<Event> eventsList = model.Events.ToList();
-            DateTime now = DateTime.Now;
-            //foreach (Event eventEntity in eventsList)
-            //{
-            //    if (eventEntity.EndTime < now)
-            //    {
-            //        model.Events.Remove(eventEntity);
-            //        model.SaveChanges();
-            //    }
-            //}
+            while (true)
+            {
+                Thread.Sleep(10000);
+                DateTime now = DateTime.Now;
+                bool isMidnight = now.TimeOfDay.Ticks == 0;
+                if (isMidnight)
+                {
+                    eventfinderEntities model = new eventfinderEntities();
+                    ICollection<Event> eventsList = model.Events.ToList();
+                    if (eventsList != null)
+                    {
+                        foreach (Event eventEntity in eventsList)
+                        {
+                            if (eventEntity.EndTime < now)
+                            {
+                                model.Events.Remove(eventEntity);
+                                model.SaveChanges();
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public override bool OnStart()
