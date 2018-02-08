@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="eventfinderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="eventfinderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Events">
           <Key>
             <PropertyRef Name="ID" />
@@ -17,6 +17,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="Longitude" Type="float" />
           <Property Name="Latitude" Type="float" />
+          <Property Name="Type" Type="int" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -90,11 +91,22 @@
             <End Role="UsersEvents" EntitySet="UsersEvents" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="eventfinderModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="eventfinderEntitiesModel" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Events" EntityType="eventfinderModel.Event" />
+          <EntitySet Name="Users" EntityType="eventfinderModel.User" />
+          <AssociationSet Name="FK_Events_Users" Association="eventfinderModel.FK_Events_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="UsersEvents" Association="eventfinderModel.UsersEvents">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Event">
           <Key>
             <PropertyRef Name="ID" />
@@ -107,8 +119,9 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Longitude" Type="Double" />
           <Property Name="Latitude" Type="Double" />
-          <NavigationProperty Name="User" Relationship="Self.FK_Events_Users" FromRole="Events" ToRole="Users" />
-          <NavigationProperty Name="Users" Relationship="Self.UsersEvents" FromRole="Events" ToRole="Users" />
+          <Property Name="Type" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="eventfinderModel.FK_Events_Users" FromRole="Event" ToRole="User" />
+          <NavigationProperty Name="Users" Relationship="eventfinderModel.UsersEvents" FromRole="Event" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -120,37 +133,25 @@
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PhoneNumber" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Events" Relationship="Self.FK_Events_Users" FromRole="Users" ToRole="Events" />
-          <NavigationProperty Name="Events1" Relationship="Self.UsersEvents" FromRole="Users" ToRole="Events" />
+          <NavigationProperty Name="Events" Relationship="eventfinderModel.FK_Events_Users" FromRole="User" ToRole="Event" />
+          <NavigationProperty Name="Events1" Relationship="eventfinderModel.UsersEvents" FromRole="User" ToRole="Event" />
         </EntityType>
         <Association Name="FK_Events_Users">
-          <End Role="Users" Type="Self.User" Multiplicity="1" />
-          <End Role="Events" Type="Self.Event" Multiplicity="*" />
+          <End Type="eventfinderModel.User" Role="User" Multiplicity="1" />
+          <End Type="eventfinderModel.Event" Role="Event" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Users">
+            <Principal Role="User">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Events">
+            <Dependent Role="Event">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="UsersEvents">
-          <End Role="Events" Type="Self.Event" Multiplicity="*" />
-          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <End Type="eventfinderModel.Event" Role="Event" Multiplicity="*" />
+          <End Type="eventfinderModel.User" Role="User" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="eventfinderEntitiesModel" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Events" EntityType="Self.Event" />
-          <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK_Events_Users" Association="Self.FK_Events_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Events" EntitySet="Events" />
-          </AssociationSet>
-          <AssociationSet Name="UsersEvents" Association="Self.UsersEvents">
-            <End Role="Events" EntitySet="Events" />
-            <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -160,35 +161,36 @@
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="eventfinderModel.Event">
               <MappingFragment StoreEntitySet="Events">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="eventfinderModel.User">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="UsersEvents" TypeName="eventfinderModel.UsersEvents" StoreEntitySet="UsersEvents">
-            <EndProperty Name="Events">
-              <ScalarProperty Name="ID" ColumnName="EventID" />
-            </EndProperty>
-            <EndProperty Name="Users">
+            <EndProperty Name="User">
               <ScalarProperty Name="ID" ColumnName="UserID" />
+            </EndProperty>
+            <EndProperty Name="Event">
+              <ScalarProperty Name="ID" ColumnName="EventID" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

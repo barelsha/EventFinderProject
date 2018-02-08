@@ -34,6 +34,10 @@ namespace WorkerRole5
                         {
                             if (eventEntity.EndTime < now)
                             {
+                                foreach (User userEntity in eventEntity.Users.ToList())
+                                {
+                                    eventEntity.Users.Remove(userEntity);
+                                }
                                 model.Events.Remove(eventEntity);
                                 model.SaveChanges();
                             }

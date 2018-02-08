@@ -5,10 +5,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="4d9b17b844594519914b36299362b3fa" Name="Diagram1">
-        <EntityTypeShape EntityType="eventfinderModel.Event" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="eventfinderModel.User" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <AssociationConnector Association="eventfinderModel.FK_Events_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="eventfinderModel.UsersEvents" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="eventfinderModel.Event" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="eventfinderModel.User" Width="1.5" PointX="3" PointY="1.25" />
+        <AssociationConnector Association="eventfinderModel.FK_Events_Users" />
+        <AssociationConnector Association="eventfinderModel.UsersEvents" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -38,7 +38,8 @@ namespace WCFServiceWebRole2
                     Latitude = latitudePoint,
                     Longitude = longitudePoint,
                     Description = newEvent.Description,
-                    User = userEntity
+                    User = userEntity,
+                    Type = newEvent.Type
                 };
                 ent.Events.Add(eventEntity);
                 ent.SaveChanges();
@@ -73,12 +74,14 @@ namespace WCFServiceWebRole2
                 QuickEvent quickEvent = new QuickEvent()
                 {
                     ID = eventEntity.ID,
+                    UserID = eventEntity.UserID,
                     Name = eventEntity.Name,
                     Description = eventEntity.Description,
                     StartTime = eventEntity.StartTime.ToString(),
                     EndTime = eventEntity.EndTime.ToString(),
                     Latitude = eventEntity.Latitude,
-                    Longtitude = eventEntity.Longitude
+                    Longtitude = eventEntity.Longitude,
+                    Type = eventEntity.Type
                 };
 
                 response.data = quickEvent;
@@ -105,12 +108,14 @@ namespace WCFServiceWebRole2
                     events.Add(new QuickEvent()
                     {
                         ID = e.ID,
+                        UserID = e.UserID,
                         Name = e.Name,
                         Description = e.Description,
                         StartTime = e.StartTime.ToString(),
                         EndTime = e.EndTime.ToString(),
                         Latitude = e.Latitude,
-                        Longtitude = e.Longitude
+                        Longtitude = e.Longitude,
+                        Type = e.Type
                     });
                 }
                 response.data = events;
@@ -170,12 +175,14 @@ namespace WCFServiceWebRole2
                     events.Add(new QuickEvent()
                     {
                         ID = e.ID,
+                        UserID = e.UserID,
                         Name = e.Name,
                         Description = e.Description,
                         StartTime = e.StartTime.ToString(),
                         EndTime = e.EndTime.ToString(),
                         Latitude = e.Latitude,
-                        Longtitude = e.Longitude
+                        Longtitude = e.Longitude,
+                        Type = e.Type
                     });
                 }
                 response.data = events;
@@ -205,12 +212,14 @@ namespace WCFServiceWebRole2
                     events.Add(new QuickEvent()
                     {
                         ID = e.ID,
+                        UserID = e.UserID,
                         Name = e.Name,
                         Description = e.Description,
                         StartTime = e.StartTime.ToString(),
                         EndTime = e.EndTime.ToString(),
                         Latitude = e.Latitude,
-                        Longtitude = e.Longitude
+                        Longtitude = e.Longitude,
+                        Type = e.Type
                     });
                 }
                 response.data = events;
