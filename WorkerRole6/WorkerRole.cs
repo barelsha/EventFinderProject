@@ -28,6 +28,7 @@ namespace WorkerRole6
             // retrieve a reference to the messages queue
             var queueClient = storageAccount.CreateCloudQueueClient();
             var JoinEventQueue = queueClient.GetQueueReference("joineventqueue");
+            JoinEventQueue.CreateIfNotExists();
             // retrieve messages and write them to the development fabric log
             while (true)
             {
@@ -36,7 +37,6 @@ namespace WorkerRole6
                 if (JoinEventQueue.Exists())
                 {
                     Trace.TraceInformation(string.Format("queue size'{0}' .", JoinEventQueue.ApproximateMessageCount));
-
                     var msg = JoinEventQueue.GetMessage();
                     if (msg != null)
                     {

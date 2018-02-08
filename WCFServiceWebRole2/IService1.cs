@@ -38,13 +38,13 @@ namespace WCFServiceWebRole2
         [WebInvoke(Method = "GET",
           ResponseFormat = WebMessageFormat.Json,
           UriTemplate = "users/events/{userID}")]
-        ResponseObject<List<QuickEvent>> GetUserEvents(string userID);
+        ResponseObject<List<QuickEvent>> GetUserEvents(string userID);// create
 
         [OperationContract]
         [WebInvoke(Method = "GET",
           ResponseFormat = WebMessageFormat.Json,
           UriTemplate = "users/events1/{userID}")]
-        ResponseObject<List<QuickEvent>> GetUserEvents1(string userID);
+        ResponseObject<List<QuickEvent>> GetUserEvents1(string userID); // join
 
         [OperationContract]
         [WebInvoke(Method = "GET",

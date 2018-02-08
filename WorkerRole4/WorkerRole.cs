@@ -29,6 +29,7 @@ namespace WorkerRole4
             // retrieve a reference to the messages queue
             var queueClient = storageAccount.CreateCloudQueueClient();
             var NewEventQueue = queueClient.GetQueueReference("neweventqueue");
+            NewEventQueue.CreateIfNotExists();
             // retrieve messages and write them to the development fabric log
             while (true)
             {
@@ -42,7 +43,7 @@ namespace WorkerRole4
                     if (msg != null)
                     {
                         Trace.TraceInformation(string.Format("Message '{0}' processed.", msg.AsString));
-                        //NotifyUsers(msg.AsString, storageAccount);
+                        NotifyUsers(msg.AsString, storageAccount);
                         Console.Write(msg.AsString);
                         NewEventQueue.DeleteMessage(msg);
                     }
@@ -59,7 +60,7 @@ namespace WorkerRole4
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
             CloudTable table = tableClient.GetTableReference("users");
             table.CreateIfNotExists();
-            TableQuery<UserEntity> query = new TableQuery<UserEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal,"Users"));
+            TableQuery<UserEntity> query = new TableQuery<UserEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "Users"));
 
             List<string> usersTag = new List<string>();
             foreach (UserEntity entity in table.ExecuteQuery(query))
@@ -68,6 +69,9 @@ namespace WorkerRole4
             }
             var notif = "{ \"data\" : {\"message\":\"" + "EventId " + eventID + "\"}}";
             hub.SendGcmNativeNotificationAsync(notif, usersTag);
+
+            //var notif = "{ \"data\" : {\"message\":\"" + "Hola" + "\"}}";
+            //hub.SendGcmNativeNotificationAsync(notif);
         }
 
         public override bool OnStart()
