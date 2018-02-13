@@ -234,6 +234,60 @@ namespace WCFServiceWebRole2
             return response;
         }
 
+        public ResponseObject<List<QuickEvent>> GetAllUserEvents(string userID)
+        {
+            dynamic response = new ResponseObject<List<QuickEvent>>();
+            try
+            {
+                List<QuickEvent> events = new List<QuickEvent>();
+                int user = Int32.Parse(userID);
+                eventfinderEntitiesModel model = new eventfinderEntitiesModel();
+                User userEntity = model.Users.First(u => u.ID == user);
+                ICollection<Event> eventEntity = userEntity.Events1.ToList();
+                foreach (var e in eventEntity)
+                {
+                    events.Add(new QuickEvent()
+                    {
+                        ID = e.ID,
+                        UserID = e.UserID,
+                        Name = e.Name,
+                        Description = e.Description,
+                        StartTime = e.StartTime.ToString(),
+                        EndTime = e.EndTime.ToString(),
+                        Latitude = e.Latitude,
+                        Longtitude = e.Longitude,
+                        Type = e.Type
+                    });
+                }
+                
+                eventEntity = userEntity.Events.ToList();
+                foreach (var e in eventEntity)
+                {
+                    events.Add(new QuickEvent()
+                    {
+                        ID = e.ID,
+                        UserID = e.UserID,
+                        Name = e.Name,
+                        Description = e.Description,
+                        StartTime = e.StartTime.ToString(),
+                        EndTime = e.EndTime.ToString(),
+                        Latitude = e.Latitude,
+                        Longtitude = e.Longitude,
+                        Type = e.Type
+                    });
+                }
+                response.data = events;
+                response.success = true;
+
+            }
+            catch (Exception)
+            {
+                response.success = false;
+                response.message = "error on GetEvents";
+            }
+            return response;
+        }
+
         public ResponseObject<List<Message>> GetMessages(string eventID)
         {
             dynamic response = new ResponseObject<List<Message>>();
