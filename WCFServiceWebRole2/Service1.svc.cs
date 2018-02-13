@@ -361,7 +361,36 @@ namespace WCFServiceWebRole2
             
             return response;
         }
-
+        public ResponseObject<List<QuickUser>> GetEventAttendings(string eventID)
+        {
+            dynamic response = new ResponseObject<List<QuickUser>>();
+            try
+            {
+                List<QuickUser> attendings = new List<QuickUser>();
+                int ID = Int32.Parse(eventID);
+                eventfinderEntitiesModel model = new eventfinderEntitiesModel();
+                Event eventEntity = model.Events.First(e => e.ID == ID);
+                ICollection<User> userEntity = eventEntity.Users.ToList();
+                foreach (var u in userEntity)
+                {
+                    attendings.Add(new QuickUser()
+                    {
+                        ID = u.ID,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        PhoneNumber = u.PhoneNumber
+                    });
+                }
+                response.data = attendings;
+                response.success = true;
+            }
+            catch (Exception)
+            {
+                response.success = false;
+                response.message = "error on GetEventAttendings";
+            }
+            return response;
+        }
         private void SaveUserPhoneID(string phoneID,string userID)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
@@ -453,6 +482,8 @@ namespace WCFServiceWebRole2
             blob.UploadFromStream(fileStream);
             blob.SetMetadata();
         }
+
+        
         //private void DeleteImage(string blobUri)
         //{
         //    var blob = this.GetContainer().GetBlockBlobReference(blobUri);

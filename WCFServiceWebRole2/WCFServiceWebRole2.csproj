@@ -128,6 +128,7 @@
     <Compile Include="DB\LoginDetails.cs" />
     <Compile Include="DB\Message.cs" />
     <Compile Include="DB\QuickEvent.cs" />
+    <Compile Include="DB\QuickUser.cs" />
     <Compile Include="DB\RegisterUser.cs" />
     <Compile Include="DB\ResponseObject.cs" />
     <Compile Include="DB\UserEntity.cs" />

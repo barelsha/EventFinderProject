@@ -59,6 +59,12 @@ namespace WCFServiceWebRole2
         ResponseObject<List<Message>> GetMessages(string eventID);
 
         [OperationContract]
+        [WebInvoke(Method = "GET",
+          ResponseFormat = WebMessageFormat.Json,
+          UriTemplate = "events/{eventID}/attendings")]
+        ResponseObject<List<QuickUser>> GetEventAttendings(string eventID);
+
+        [OperationContract]
         [WebInvoke(Method = "POST",
             ResponseFormat = WebMessageFormat.Json,
             RequestFormat = WebMessageFormat.Json,
