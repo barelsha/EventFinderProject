@@ -20,8 +20,8 @@ namespace WorkerRole4
     {
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly ManualResetEvent runCompleteEvent = new ManualResetEvent(false);
-        private string connectionStringNotification = "Endpoint=sb://notificationhubfnamespace.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=r3YQI3oM7rqlnptfnLO/kfuCpCv7v30GTjpzYr0AdAk=";
-        private string hubName = "notificationhubfirebase";
+        private string connectionStringNotification = "Endpoint=sb://eventfindernamespace.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=Qp2nSxkminzrcNpmEhrdhDhu5VDDI1aQjR9z1ogcjXA=";
+        private string hubName = "eventfinder";
         public override void Run()
         {
             // initialize the account information
@@ -69,7 +69,7 @@ namespace WorkerRole4
             }
             var notif = "{ \"data\" : {\"message\":\"" + "EventId " + eventID + "\"}}";
             hub.SendGcmNativeNotificationAsync(notif, usersTag);
-
+             
             //var notif = "{ \"data\" : {\"message\":\"" + "Hola" + "\"}}";
             //hub.SendGcmNativeNotificationAsync(notif);
         }
