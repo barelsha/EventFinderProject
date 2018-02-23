@@ -44,6 +44,7 @@ namespace WCFServiceWebRole2
                 ent.Events.Add(eventEntity);
                 ent.SaveChanges();
                 int eventID = eventEntity.ID;
+                newEvent.ID = eventID;
                 var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));// retrieve a reference to the messages queue
                 var queueEvent = storageAccount.CreateCloudQueueClient();
                 var queue = queueEvent.GetQueueReference("neweventqueue");
@@ -146,7 +147,7 @@ namespace WCFServiceWebRole2
                 var queueEvent = storageAccount.CreateCloudQueueClient();
                 var queue = queueEvent.GetQueueReference("joineventqueue");
                 queue.CreateIfNotExists(null);
-                string message = eventEntity.ID + ',' + userID;
+                string message ="EventID "+ eventEntity.ID + " UserID " + userID;
                 var msg = new CloudQueueMessage(message);
                 queue.AddMessage(msg);
                 response.success = true;

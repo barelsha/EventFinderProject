@@ -13,6 +13,7 @@ using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using System.IO;
 
 namespace WorkerRole4
 {
@@ -20,8 +21,10 @@ namespace WorkerRole4
     {
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly ManualResetEvent runCompleteEvent = new ManualResetEvent(false);
-        private string connectionStringNotification = "Endpoint=sb://eventfindernamespace.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=Qp2nSxkminzrcNpmEhrdhDhu5VDDI1aQjR9z1ogcjXA=";
+        private string connectionStringNotification = "Endpoint=sb://eventfindernamespace.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=NzEnv2oZRIkPfz4qdOEYgR/aawGewXCbB+5SgtJFHNU=";
         private string hubName = "eventfinder";
+        private string registrationId = "7710043536548896721-5157999753182420454-1";
+        private string serverKey = "AAAAe-P_i68:APA91bF8KC3Jkq38RRzYtrV_eLnVPNhMgYTh4jERpe-DvNfOLZY0r8dKLxReEwfAmMw6z-aIN5l1SrJ5JOBD273JbUGsy4W-tGa7aH5ni8qJB9kup1a_YnKKVnjokN0XP_RX780x6S0F";
         public override void Run()
         {
             // initialize the account information
@@ -33,7 +36,7 @@ namespace WorkerRole4
             // retrieve messages and write them to the development fabric log
             while (true)
             {
-                Thread.Sleep(10000);
+                //Thread.Sleep(5000);
 
                 if (NewEventQueue.Exists())
                 {
@@ -56,22 +59,23 @@ namespace WorkerRole4
             NotificationHubClient hub = NotificationHubClient.CreateClientFromConnectionString(connectionStringNotification, hubName);
             WnsHeaderCollection wnsHeaderCollection = new WnsHeaderCollection();
             wnsHeaderCollection.Add("X-WNS-Type", @"wns/raw");
-
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-            CloudTable table = tableClient.GetTableReference("users");
+            CloudTable table = tableClient.GetTableReference("registeredDevices");
             table.CreateIfNotExists();
-            TableQuery<UserEntity> query = new TableQuery<UserEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "Users"));
+            //TableQuery<UserEntity> query = new TableQuery<UserEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "registeredDevices"));
 
-            List<string> usersTag = new List<string>();
-            foreach (UserEntity entity in table.ExecuteQuery(query))
-            {
-                usersTag.Add(entity.PhoneID);
-            }
-            var notif = "{ \"data\" : {\"message\":\"" + "EventId " + eventID + "\"}}";
-            hub.SendGcmNativeNotificationAsync(notif, usersTag);
-             
-            //var notif = "{ \"data\" : {\"message\":\"" + "Hola" + "\"}}";
-            //hub.SendGcmNativeNotificationAsync(notif);
+            //List<string> usersTag = new List<string>();
+            //List<UserEntity> aa = table.ExecuteQuery(new TableQuery<UserEntity>()).ToList();
+            //foreach (UserEntity entity in aa)
+            //{
+            //    usersTag.Add(entity.RowKey);
+            //}
+            ////var notif = "{ \"data\" : {\"message\":\"" + "EventId " + eventID + "\"}}";
+            ////hub.SendGcmNativeNotificationAsync(notif, usersTag);
+            //string a = "8736725417766488658-761683147264243211-3";
+            var notif = "{\"data\" : {\"message\":\"" + "event added EventId " + eventID + "\"}}";
+            //var notif = "{\"registration_ids\": [\""+ a + "\"], \"data\" : {\"message\":\"" + "event added EventId " + eventID + "\"}}";
+            hub.SendGcmNativeNotificationAsync(notif);
         }
 
         public override bool OnStart()

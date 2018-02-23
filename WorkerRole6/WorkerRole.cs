@@ -32,7 +32,7 @@ namespace WorkerRole6
             // retrieve messages and write them to the development fabric log
             while (true)
             {
-                Thread.Sleep(10000);
+                //Thread.Sleep(10000);
 
                 if (JoinEventQueue.Exists())
                 {
@@ -41,7 +41,7 @@ namespace WorkerRole6
                     if (msg != null)
                     {
                         Trace.TraceInformation(string.Format("Message '{0}' processed.", msg.AsString));
-                        //NotifyManager(msg.ToString(), storageAccount);
+                        NotifyManager(msg.AsString, storageAccount);
                         Console.Write(msg);
                         JoinEventQueue.DeleteMessage(msg);
                     }
@@ -51,22 +51,23 @@ namespace WorkerRole6
 
         private void NotifyManager(string msg, CloudStorageAccount storageAccount)
         {
-            string[] message = msg.Split(',');
-            string eventID = message[0];
-            string userID = message[1];
-            eventfinderEntities model = new eventfinderEntities();
-            Event eventEntity = model.Events.First(e => e.ID == Int32.Parse(eventID));
-            string managerID = eventEntity.User.ID.ToString();
+            //string[] message = msg.Split(' ');
+            //string eventID = message[0];
+            //string userID = message[1];
+            //eventfinderEntities model = new eventfinderEntities();
+            //Event eventEntity = model.Events.First(e => e.ID == Int32.Parse(eventID));
+            //string managerID = eventEntity.User.ID.ToString();
             NotificationHubClient hub = NotificationHubClient.CreateClientFromConnectionString(connectionStringNotification, hubName);
             WnsHeaderCollection wnsHeaderCollection = new WnsHeaderCollection();
             wnsHeaderCollection.Add("X-WNS-Type", @"wns/raw");
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-            CloudTable table = tableClient.GetTableReference("users");
+            CloudTable table = tableClient.GetTableReference("registeredDevices");
             table.CreateIfNotExists();
-            TableQuery<UserEntity> query = new TableQuery<UserEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal,"Users" )).Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, managerID));
-            UserEntity manager = table.ExecuteQuery(query).First();
-            var notif = "{ \"data\" : {\"message\":\"" + "EventId " + eventID + " UserID "+ userID+"\"}}";
-            hub.SendGcmNativeNotificationAsync(notif, manager.PhoneID);
+            //TableQuery<UserEntity> query = new TableQuery<UserEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal,"Users" )).Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, managerID));
+            //UserEntity manager = table.ExecuteQuery(query).First();
+            var notif = "{ \"data\" : {\"message\":\"" + "joined event " + msg + "\"}}";
+            //hub.SendGcmNativeNotificationAsync(notif, manager.PhoneID);
+            hub.SendGcmNativeNotificationAsync(notif);
         }
 
         public override bool OnStart()
