@@ -19,8 +19,8 @@ namespace WorkerRole6
     {
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly ManualResetEvent runCompleteEvent = new ManualResetEvent(false);
-        private string connectionStringNotification = "Endpoint=sb://notificationhubfnamespace.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=r3YQI3oM7rqlnptfnLO/kfuCpCv7v30GTjpzYr0AdAk=";
-        private string hubName = "notificationhubfirebase";
+        private string connectionStringNotification = "Endpoint=sb://eventfindernamespace.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=NzEnv2oZRIkPfz4qdOEYgR/aawGewXCbB+5SgtJFHNU=";
+        private string hubName = "eventfinder";
         public override void Run()
         {
             // initialize the account information
